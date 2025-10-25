@@ -462,8 +462,7 @@ if (document.getElementById('printLetterBtn') && letters) {
 // --- Surprise Compliments ---
 if (document.getElementById('surpriseBtn')) {
     const compliments = [ /* ... compliments array ... */ 
-        "Your laugh is my favourite song.", "You make even boring days special.", "I still get a little thrill when you smile at me.", "You're my favourite hello and hardest goodbye.", "I love all our plans for the future."
-    ];
+"Your laugh is my favourite song.", "You make even boring days special.", "I still get a little thrill when you smile at me.", "You're my favourite hello and hardest goodbye.", "I love all our plans for the future.", "I find new reasons to love you every single day.", "You're the calm I need in a chaotic world.", "Just the thought of you makes me smile.", "You feel like home.", "I love the little world we've built together.", "Waking up next to you is the best part of my day.", "I love just doing nothing with you.", "You make me a better person.", "The way you look at me still gives me butterflies.", "I love the sound of your voice when you first wake up.", "You're my person, through and through.", "I could talk to you for hours and never get bored.", "Your hand in mine is my favorite feeling.", "You are my greatest adventure.", "Everything makes more sense when I'm with you.", "I love watching you get excited about things.", "You're the best decision I ever made.", "I choose you. Every day, I'll keep choosing you.", "You're my sunshine on a cloudy day.", "I didn't know what 'complete' felt like until I met you.", "I cherish every memory we've made.", "You're the answer to prayers I didn't even know how to say.", "Falling asleep with you is the perfect end to every day.", "I love how you see the world.", "You're my anchor.", "Being with you is just... easy.", "I look at you and I'm home.", "You're my favorite notification.", "I love knowing this is just the beginning for us.", "My heart feels so full because of you.", "You're my safe place.", "I love you more than I have words for."    ];
     document.getElementById('surpriseBtn').addEventListener('click', () => {
         alert(compliments[Math.floor(Math.random() * compliments.length)] + ' 💕');
     });
@@ -511,4 +510,5 @@ document.addEventListener('DOMContentLoaded', () => {
         setEditingEnabled(false); 
     }
     // If auth is loaded, the onAuthStateChanged listener will handle enabling/disabling.
+
 });
