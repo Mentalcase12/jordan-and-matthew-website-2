@@ -29,7 +29,7 @@ const editBtn = document.getElementById('editLetters'); // Alias for consistency
 const editorArea = document.getElementById('editorArea');
 const letterEdit = document.getElementById('letterEdit');
 const letters = document.getElementById('letters');
-const saveLetterBtn = document.getElementById('saveLetter');
+const saveLetterBtn = document.getElementById('saveLetter'); // Explicitly get save/cancel
 const cancelEditBtn = document.getElementById('cancelEdit');
 
 const surpriseBtn = document.getElementById('surpriseBtn');
@@ -461,7 +461,7 @@ if (reasonsContainer && reasonInput && addReasonBtn && reasonsRef && addReasonSe
         if (snapshot.exists()) {
             snapshot.forEach(childSnapshot => { drawReasonNote(childSnapshot.val()); });
         }
-        // No need to call setEditingEnabled here unless it affects something *inside* the notes
+        // No explicit need to call setEditingEnabled here, as the input section is handled separately
     });
 
 } else {
@@ -522,9 +522,13 @@ const printLetterBtn = document.getElementById('printLetterBtn');
 if (printLetterBtn && letters) {
     printLetterBtn.addEventListener('click', () => {
         const letterText = letters.innerText;
-        const printWindow = window.open('', '_blank');
-        printWindow.document.write(`<html><head><title>Letter for Jordan</title><style>body{font-family:sans-serif;line-height:1.6;padding:20px;}pre{white-space:pre-wrap;word-wrap:break-word;}</style></head><body><pre>${escapeHtml(letterText)}</pre><script>window.onload=function(){window.print();setTimeout(function(){window.close();},500);}</script></body></html>`);
-        printWindow.document.close();
+        const printWindow = window.open('', '_blank', 'height=600,width=800'); // Added dimensions
+        if (printWindow) {
+            printWindow.document.write(`<html><head><title>Letter for Jordan</title><style>body{font-family:sans-serif;line-height:1.6;padding:20px;}pre{white-space:pre-wrap;word-wrap:break-word;}</style></head><body><pre>${escapeHtml(letterText)}</pre><script>window.onload=function(){window.focus(); window.print(); window.onafterprint=function(){window.close();}};</script></body></html>`); // Improved print/close logic
+            printWindow.document.close();
+        } else {
+            alert('Popup blocked! Please allow popups for this site to print the letter.');
+        }
     });
 }
 
@@ -545,18 +549,28 @@ if (surpriseBtn && surpriseOverlay && surpriseMessage && closeSurpriseBtn && sur
         else { console.error("Failed to get a random compliment."); surpriseMessage.textContent = "You're amazing! 💕"; }
 
         surpriseOverlay.classList.remove('hidden');
-        setTimeout(() => { surpriseCard.classList.add('surprise-reveal'); }, 50);
+        // Use requestAnimationFrame for smoother animation trigger after display change
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                surpriseCard.classList.add('surprise-reveal');
+            }, 10); // Minimal delay
+        });
     }
 
     function hideSurprise() {
-        surpriseOverlay.classList.add('hidden');
-        setTimeout(() => { surpriseCard.classList.remove('surprise-reveal'); }, 400); // Match CSS transition duration
+        surpriseCard.classList.remove('surprise-reveal'); // Start removal animation first
+        // Add hidden class slightly after removal animation starts or based on CSS transition
+        setTimeout(() => {
+            surpriseOverlay.classList.add('hidden');
+        }, 400); // Match CSS transition duration for opacity/scale
     }
 
     surpriseBtn.addEventListener('click', () => {
         surpriseBtn.classList.add('clicked-animation');
         showSurprise();
-        setTimeout(() => { surpriseBtn.classList.remove('clicked-animation'); }, 500);
+        setTimeout(() => {
+            surpriseBtn.classList.remove('clicked-animation');
+        }, 500); // Duration of button animation
     });
 
     closeSurpriseBtn.addEventListener('click', hideSurprise);
@@ -583,7 +597,7 @@ window.addEventListener('keydown', (e) => {
     if (canTriggerSecret) {
        if (key === secret[idx]) { idx++; if (idx === secret.length) { idx = 0; alert('You found the secret! ♥\n\nA little note for you: "I love you more every day."'); } } else { idx = (key === secret[0]) ? 1 : 0; }
     } else if (isTyping) {
-        idx = (key === secret[0]) ? 1 : 0; // Reset secret index if typing and key doesn't match start
+        idx = (key === secret[0]) ? 1 : 0; // Reset secret index if typing
     }
 
     // Accessibility (only if not typing at all)
@@ -612,14 +626,16 @@ if (exportZipBtn && letters) {
 if (spotifyPlayer && spotifyLinkInput && updateSpotifyBtn && spotifyEmbedUrlRef && spotifyUpdateSection) {
     updateSpotifyBtn.addEventListener('click', () => {
         const newUrl = spotifyLinkInput.value.trim();
-        // Slightly broader check for Spotify embed URLs
-        if (newUrl && newUrl.includes('http://googleusercontent.com/spotify.com/3')) { // Adjusted check
-            spotifyEmbedUrlRef.set(newUrl)
-                .then(() => { spotifyLinkInput.value = ''; alert('Spotify embed updated!'); })
-                .catch(error => { console.error("Error updating Spotify URL:", error); alert(`Could not update Spotify URL. ${error.code === 'PERMISSION_DENIED' ? 'Are you logged in?' : 'Please try again.'}`); });
-        } else {
-            alert('Invalid Spotify Embed URL. Please paste the URL from the "src=\'...\'" part of Spotify\'s embed code.');
-        }
+        // ▼▼▼ REPLACE THE OLD 'if' CHECK WITH THIS ▼▼▼
+if (newUrl) { // Just check if the input is not empty
+    // ... code to save ... (Keep the .then() and .catch() part)
+     spotifyEmbedUrlRef.set(newUrl)
+        .then(() => { spotifyLinkInput.value = ''; alert('Spotify embed updated!'); })
+        .catch(error => { console.error("Error updating Spotify URL:", error); alert(`Could not update Spotify URL. ${error.code === 'PERMISSION_DENIED' ? 'Are you logged in?' : 'Please try again.'}`); });
+} else {
+    alert('Please paste a Spotify Embed SRC URL first.'); // Changed error message
+}
+// ▲▲▲ REPLACE THE OLD 'if' CHECK WITH THIS ▲▲▲
     });
 
     spotifyEmbedUrlRef.on('value', (snapshot) => {
@@ -634,10 +650,11 @@ if (spotifyPlayer && spotifyLinkInput && updateSpotifyBtn && spotifyEmbedUrlRef 
     });
 } else {
     console.warn("Spotify update elements or Firebase ref missing.");
-    if (spotifyUpdateSection) spotifyUpdateSection.style.display = 'none'; // Ensure it's hidden if not functional
+    if (spotifyUpdateSection) spotifyUpdateSection.style.display = 'none';
 }
 
-// Final check: Ensure editing is disabled initially if auth hasn't loaded yet
+
+// Final check: Set initial editing state after DOM content is loaded
 document.addEventListener('DOMContentLoaded', () => {
     // Check immediately if auth object exists AND if there's already a user
     const initialUser = (typeof firebaseAuth !== 'undefined' && firebaseAuth) ? firebaseAuth.currentUser : null;
