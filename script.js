@@ -29,7 +29,7 @@ const editBtn = document.getElementById('editLetters'); // Alias for consistency
 const editorArea = document.getElementById('editorArea');
 const letterEdit = document.getElementById('letterEdit');
 const letters = document.getElementById('letters');
-const saveLetterBtn = document.getElementById('saveLetter'); // Explicitly get save/cancel
+const saveLetterBtn = document.getElementById('saveLetter');
 const cancelEditBtn = document.getElementById('cancelEdit');
 
 const surpriseBtn = document.getElementById('surpriseBtn');
@@ -43,7 +43,7 @@ const reasonInput = document.getElementById('reasonInput');         // Reasons J
 const addReasonBtn = document.getElementById('addReasonBtn');       // Reasons Jar
 const addReasonSection = document.getElementById('addReasonSection'); // Reasons Jar
 
-const spotifyPlayer = document.getElementById('spotifyPlayer'); // Spotify (Optional - If using input method)
+const spotifyPlayer = document.getElementById('spotifyPlayer'); // Spotify
 const spotifyLinkInput = document.getElementById('spotifyLinkInput'); // Spotify
 const updateSpotifyBtn = document.getElementById('updateSpotifyBtn'); // Spotify
 const spotifyUpdateSection = document.getElementById('spotifyUpdateSection'); // Spotify
@@ -84,9 +84,14 @@ function setEditingEnabled(isEnabled) {
         if (el) {
             el.disabled = !isEnabled;
             // Prevent visual changes if element is hidden (like editor)
-            if (el.offsetParent !== null || el === editLettersBtn) { // Check if visible or is the main edit btn
+            // Check if visible based on offsetParent OR if it's the main edit button which might be visible even if editor isn't
+            if ((el.offsetParent !== null && window.getComputedStyle(el).display !== 'none') || el === editLettersBtn) {
                 el.style.opacity = isEnabled ? '1' : '0.5';
                 el.style.cursor = isEnabled ? '' : 'not-allowed';
+            } else if (el.disabled) {
+                 // Ensure hidden disabled elements don't suddenly gain opacity/cursor styles if re-enabled while hidden
+                 el.style.opacity = ''; // Reset opacity if hidden and disabled
+                 el.style.cursor = ''; // Reset cursor
             }
         }
     });
@@ -154,7 +159,7 @@ if (muteMusic && bgMusic) {
     if (!ctx) { console.error("Could not get 2D context for hearts canvas"); return; }
     let W = canvas.width = window.innerWidth;
     let H = canvas.height = window.innerHeight;
-    let animationFrameId = null; // Keep track of animation frame
+    let animationFrameId = null;
 
     class Heart {
         constructor() { this.reset(); }
@@ -171,15 +176,12 @@ if (muteMusic && bgMusic) {
     }
 
     window.addEventListener('resize', () => {
-        if (animationFrameId) {
-            cancelAnimationFrame(animationFrameId);
-        }
+        if (animationFrameId) { cancelAnimationFrame(animationFrameId); }
         W = canvas.width = window.innerWidth;
         H = canvas.height = window.innerHeight;
-        // Re-initialize hearts or just restart animation
         anim();
     });
-    anim(); // Start animation initially
+    anim();
 })();
 
 
@@ -201,33 +203,25 @@ if (firebaseAuth && loginBtn && logoutBtn) {
         const password = prompt("Enter your admin password:");
         if (email && password) {
             firebaseAuth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    console.log("Login successful:", userCredential.user.email);
-                })
-                .catch((error) => {
-                    console.error("Login failed:", error.code, error.message);
-                    alert("Login failed: " + error.message);
-                });
+                .then((userCredential) => { console.log("Login successful:", userCredential.user.email); })
+                .catch((error) => { console.error("Login failed:", error.code, error.message); alert("Login failed: " + error.message); });
         }
     });
 
     logoutBtn.addEventListener('click', () => {
-        firebaseAuth.signOut().then(() => {
-            console.log("Logout successful");
-        }).catch((error) => {
-            console.error("Logout failed:", error.code, error.message);
-            alert("Logout failed: " + error.message);
-        });
+        firebaseAuth.signOut()
+            .then(() => { console.log("Logout successful"); })
+            .catch((error) => { console.error("Logout failed:", error.code, error.message); alert("Logout failed: " + error.message); });
     });
 
     firebaseAuth.onAuthStateChanged((user) => {
-        const isLoggedIn = !!user; // Convert user object to boolean
-        currentUser = user; // Update currentUser state
+        const isLoggedIn = !!user;
+        currentUser = user; // Update global state
 
         console.log("Auth state changed. User:", user ? user.email : 'Logged out');
         loginBtn.style.display = isLoggedIn ? 'none' : 'inline-block';
         logoutBtn.style.display = isLoggedIn ? 'inline-block' : 'none';
-        setEditingEnabled(isLoggedIn);
+        setEditingEnabled(isLoggedIn); // Central function handles all UI updates
 
         // If logged out and editor was open, hide it
         if (!isLoggedIn && editorArea && editorArea.style.display === 'block') {
@@ -250,10 +244,7 @@ if (firebaseAuth && loginBtn && logoutBtn) {
 if (board && msgInput && postBtn && clearBtn && messagesRef) {
     function drawMessage(messageObject) {
         const el = document.createElement('div');
-        el.style.background = 'linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))';
-        el.style.padding = '8px 10px';
-        el.style.borderRadius = '10px';
-        el.style.marginBottom = '8px';
+        el.style.cssText = 'background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding: 8px 10px; border-radius: 10px; margin-bottom: 8px;'; // Use cssText for brevity
         const name = messageObject.name ? escapeHtml(messageObject.name) : 'Someone';
         const text = messageObject.text ? escapeHtml(messageObject.text) : '';
         el.innerHTML = `<strong>From ${name}:</strong><div style="margin-top:6px">${text}</div>`;
@@ -335,29 +326,23 @@ if (memoryInput && addMemoryBtn && timelineList && memoriesRef) {
 if (meetDateInput && countdownDisplay && meetupDateRef) {
     function updateCountdown(dateString) {
         if (!dateString) { countdownDisplay.innerText = 'No date set.'; if (meetDateInput) meetDateInput.value = ''; return; }
-        if (meetDateInput) meetDateInput.value = dateString; // Sync input with DB value
+        if (meetDateInput) meetDateInput.value = dateString;
         const then = new Date(dateString);
         if (isNaN(then.getTime())) { countdownDisplay.innerText = 'Invalid date set.'; return; }
 
-        // Get midnight UTC *after* the target date
-        const targetDateUTC = new Date(Date.UTC(then.getUTCFullYear(), then.getUTCMonth(), then.getUTCDate()));
-        const targetMidnightUTC = targetDateUTC.getTime() + (24 * 60 * 60 * 1000); // Add one day in ms
+        // Compare based on the start of the days in UTC
+        const todayStartUTC = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate())).getTime();
+        const targetStartUTC = new Date(Date.UTC(then.getUTCFullYear(), then.getUTCMonth(), then.getUTCDate())).getTime();
 
-        const now = new Date();
-        // Get midnight UTC *after* today
-        const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-        const todayMidnightUTC = todayUTC.getTime() + (24 * 60 * 60 * 1000);
+        const diff = targetStartUTC - todayStartUTC; // Difference in milliseconds between start of days
 
-        const diff = targetMidnightUTC - todayMidnightUTC; // Diff between midnights
-
-        if (diff < 0) { // Target date's midnight has passed today's midnight
+        if (diff < 0) { // Target day start is before today's start
             countdownDisplay.innerText = 'The day is here or has passed!';
         } else {
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24)); // Calculate full days between midnights
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24)); // Calculate full days difference
             countdownDisplay.innerText = days + (days === 1 ? ' day to go!' : ' days to go — hold on tight!');
         }
     }
-
 
     meetDateInput.addEventListener('change', () => {
         const newDate = meetDateInput.value;
@@ -371,7 +356,7 @@ if (meetDateInput && countdownDisplay && meetupDateRef) {
                  console.error("Error removing date:", error);
                  alert(`Could not clear date. ${error.code === 'PERMISSION_DENIED' ? 'Are you logged in?' : 'Please try again.'}`);
             });
-            // updateCountdown(null); // Listener below will handle this
+            // Listener below handles display update
         }
     });
 
@@ -392,12 +377,12 @@ if (meetDateInput && countdownDisplay && meetupDateRef) {
 if (bucketListContainer && bucketListItemInput && addBucketListItemBtn && bucketListRef) {
     function drawBucketListItem(key, itemData) {
         const li = document.createElement('div');
-        li.style.display = 'flex'; li.style.alignItems = 'center'; li.style.marginBottom = '8px'; li.style.padding = '5px'; li.style.borderRadius = '5px'; li.style.background = 'rgba(255, 255, 255, 0.03)';
+        li.style.cssText = 'display: flex; align-items: center; margin-bottom: 8px; padding: 5px; border-radius: 5px; background: rgba(255, 255, 255, 0.03);';
 
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox'; checkbox.checked = itemData.completed || false;
-        checkbox.style.marginRight = '10px'; checkbox.style.cursor = 'pointer'; checkbox.style.accentColor = 'var(--accent)'; checkbox.style.transform = 'scale(1.2)';
-        checkbox.disabled = !currentUser; // Disable based on current login state at draw time
+        checkbox.style.cssText = 'margin-right: 10px; cursor: pointer; accent-color: var(--accent); transform: scale(1.2);';
+        checkbox.disabled = !currentUser;
         checkbox.style.cursor = currentUser ? 'pointer' : 'not-allowed';
 
         const textSpan = document.createElement('span');
@@ -406,13 +391,12 @@ if (bucketListContainer && bucketListItemInput && addBucketListItemBtn && bucket
         textSpan.style.opacity = itemData.completed ? '0.6' : '1';
 
         checkbox.addEventListener('change', () => {
-            if (!currentUser) return; // Prevent action if somehow clicked while disabled
-            const updates = {};
-            updates[`/${key}/completed`] = checkbox.checked;
+            if (!currentUser) return;
+            const updates = {}; updates[`/${key}/completed`] = checkbox.checked;
             bucketListRef.update(updates).catch(error => {
                  console.error("Error updating item:", error);
                  alert(`Could not update item. ${error.code === 'PERMISSION_DENIED' ? 'Are you logged in?' : 'Please try again.'}`);
-                 checkbox.checked = !checkbox.checked; // Revert visually on error
+                 checkbox.checked = !checkbox.checked; // Revert visually
             });
         });
 
@@ -436,12 +420,9 @@ if (bucketListContainer && bucketListItemInput && addBucketListItemBtn && bucket
     bucketListRef.orderByChild('timestamp').on('value', (snapshot) => {
         bucketListContainer.innerHTML = '';
         if (snapshot.exists()) {
-             snapshot.forEach(childSnapshot => {
-                 drawBucketListItem(childSnapshot.key, childSnapshot.val());
-             });
+             snapshot.forEach(childSnapshot => { drawBucketListItem(childSnapshot.key, childSnapshot.val()); });
         }
-        // Ensure checkboxes reflect current login state after redraw
-        setEditingEnabled(!!currentUser);
+        setEditingEnabled(!!currentUser); // Refresh checkbox disabled state
     });
 } else {
      console.warn("Bucket list elements or Firebase ref missing.");
@@ -456,7 +437,7 @@ if (bucketListContainer && bucketListItemInput && addBucketListItemBtn && bucket
 if (reasonsContainer && reasonInput && addReasonBtn && reasonsRef && addReasonSection) {
     function drawReasonNote(reasonData) {
         const noteDiv = document.createElement('div');
-        noteDiv.className = 'reason-note';
+        noteDiv.className = 'reason-note'; // Use class from CSS
         noteDiv.textContent = escapeHtml(reasonData.text);
         reasonsContainer.appendChild(noteDiv);
         reasonsContainer.scrollTop = reasonsContainer.scrollHeight;
@@ -478,17 +459,14 @@ if (reasonsContainer && reasonInput && addReasonBtn && reasonsRef && addReasonSe
     reasonsRef.orderByChild('timestamp').on('value', (snapshot) => {
         reasonsContainer.innerHTML = '';
         if (snapshot.exists()) {
-            snapshot.forEach(childSnapshot => {
-                drawReasonNote(childSnapshot.val());
-            });
+            snapshot.forEach(childSnapshot => { drawReasonNote(childSnapshot.val()); });
         }
-        // Ensure editing state is correct after redraw
-        setEditingEnabled(!!currentUser); // Call this to hide/show input section if needed
+        // No need to call setEditingEnabled here unless it affects something *inside* the notes
     });
 
 } else {
      console.warn("Reasons Jar elements or Firebase ref missing. Feature disabled.");
-     if (addReasonSection) addReasonSection.style.display = 'none'; // Hide if elements missing
+     if (addReasonSection) addReasonSection.style.display = 'none';
 }
 //
 // --- ⬆️ END OF REASONS JAR SECTION ⬆️ ---
@@ -499,16 +477,16 @@ function changeMainPhoto(url) {
     const mainPhoto = document.getElementById('mainPhoto');
     if (mainPhoto && typeof url === 'string') mainPhoto.src = url;
 }
-window.changeMainPhoto = changeMainPhoto; // Make accessible globally if needed by HTML
+window.changeMainPhoto = changeMainPhoto;
 
 // --- Edit Letters ---
 if (editBtn && editorArea && letterEdit && letters && cancelEditBtn && saveLetterBtn) {
     editBtn.addEventListener('click', () => {
+        if (!currentUser) return; // Prevent opening if not logged in
         letterEdit.value = letters.innerText.trim();
         editorArea.style.display = 'block';
         editBtn.style.display = 'none';
-        // Ensure editor elements are enabled if user is logged in
-        setEditingEnabled(!!currentUser);
+        setEditingEnabled(true); // Ensure inner controls are enabled
     });
 
     cancelEditBtn.addEventListener('click', () => {
@@ -530,14 +508,11 @@ const downloadLetterBtn = document.getElementById('downloadLetter');
 if (downloadLetterBtn && letters) {
     downloadLetterBtn.addEventListener('click', () => {
         const text = letters.innerText;
-        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' }); // Added charset
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = 'letter-for-jordan.txt';
-        document.body.appendChild(a); // Required for Firefox
-        a.click();
-        document.body.removeChild(a); // Clean up
+        a.href = url; a.download = 'letter-for-jordan.txt';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
         URL.revokeObjectURL(url);
     });
 }
@@ -548,27 +523,7 @@ if (printLetterBtn && letters) {
     printLetterBtn.addEventListener('click', () => {
         const letterText = letters.innerText;
         const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
-            <html>
-            <head>
-                <title>Letter for Jordan</title>
-                <style>
-                    body { font-family: sans-serif; line-height: 1.6; padding: 20px; }
-                    pre { white-space: pre-wrap; word-wrap: break-word; }
-                </style>
-            </head>
-            <body>
-                <pre>${escapeHtml(letterText)}</pre>
-                <script>
-                    window.onload = function() {
-                        window.print();
-                        // Delay closing slightly to allow print dialog
-                        setTimeout(function() { window.close(); }, 500);
-                    }
-                </script>
-            </body>
-            </html>
-        `);
+        printWindow.document.write(`<html><head><title>Letter for Jordan</title><style>body{font-family:sans-serif;line-height:1.6;padding:20px;}pre{white-space:pre-wrap;word-wrap:break-word;}</style></head><body><pre>${escapeHtml(letterText)}</pre><script>window.onload=function(){window.print();setTimeout(function(){window.close();},500);}</script></body></html>`);
         printWindow.document.close();
     });
 }
@@ -577,7 +532,7 @@ if (printLetterBtn && letters) {
 // --- ⬇️ SURPRISE COMPLIMENTS (OVERLAY VERSION) ⬇️ ---
 //
 if (surpriseBtn && surpriseOverlay && surpriseMessage && closeSurpriseBtn && surpriseCard) {
-    const compliments = [ /* Long list from previous step */
+    const compliments = [ /* Long list */
         "Your laugh is my favourite song.", "You make even boring days special.", "I still get a little thrill when you smile at me.", "You're my favourite hello and hardest goodbye.", "I love all our plans for the future.", "I find new reasons to love you every single day.", "You're the calm I need in a chaotic world.", "Just the thought of you makes me smile.", "You feel like home.", "I love the little world we've built together.", "Waking up next to you is the best part of my day.", "I love just doing nothing with you.", "You make me a better person.", "The way you look at me still gives me butterflies.", "I love the sound of your voice when you first wake up.", "You're my person, through and through.", "I could talk to you for hours and never get bored.", "Your hand in mine is my favorite feeling.", "You are my greatest adventure.", "Everything makes more sense when I'm with you.", "I love watching you get excited about things.", "You're the best decision I ever made.", "I choose you. Every day, I'll keep choosing you.", "You're my sunshine on a cloudy day.", "I didn't know what 'complete' felt like until I met you.", "I cherish every memory we've made.", "You're the answer to prayers I didn't even know how to say.", "Falling asleep with you is the perfect end to every day.", "I love how you see the world.", "You're my anchor.", "Being with you is just... easy.", "I look at you and I'm home.", "You're my favorite notification.", "I love knowing this is just the beginning for us.", "My heart feels so full because of you.", "You're my safe place.", "I love you more than I have words for."
     ];
 
@@ -586,45 +541,29 @@ if (surpriseBtn && surpriseOverlay && surpriseMessage && closeSurpriseBtn && sur
         const randomCompliment = compliments[randomIndex];
         console.log("Selected compliment:", randomCompliment, "at index", randomIndex);
 
-        if (typeof randomCompliment === 'string') {
-            surpriseMessage.textContent = randomCompliment + ' 💕';
-        } else {
-            console.error("Failed to get a random compliment. Array issue?");
-            surpriseMessage.textContent = "You're amazing! 💕";
-        }
+        if (typeof randomCompliment === 'string') { surpriseMessage.textContent = randomCompliment + ' 💕'; }
+        else { console.error("Failed to get a random compliment."); surpriseMessage.textContent = "You're amazing! 💕"; }
+
         surpriseOverlay.classList.remove('hidden');
-        setTimeout(() => {
-            surpriseCard.classList.add('surprise-reveal');
-        }, 50); // Short delay for animation trigger
+        setTimeout(() => { surpriseCard.classList.add('surprise-reveal'); }, 50);
     }
 
     function hideSurprise() {
         surpriseOverlay.classList.add('hidden');
-        // Remove reveal class AFTER fade out transition (approx 400ms from CSS)
-        setTimeout(() => {
-             surpriseCard.classList.remove('surprise-reveal');
-        }, 400);
+        setTimeout(() => { surpriseCard.classList.remove('surprise-reveal'); }, 400); // Match CSS transition duration
     }
 
     surpriseBtn.addEventListener('click', () => {
         surpriseBtn.classList.add('clicked-animation');
         showSurprise();
-        setTimeout(() => {
-            surpriseBtn.classList.remove('clicked-animation');
-        }, 500); // Duration of button animation
+        setTimeout(() => { surpriseBtn.classList.remove('clicked-animation'); }, 500);
     });
 
     closeSurpriseBtn.addEventListener('click', hideSurprise);
-    surpriseOverlay.addEventListener('click', (event) => {
-        if (event.target === surpriseOverlay) { // Click on background only
-            hideSurprise();
-        }
-    });
+    surpriseOverlay.addEventListener('click', (event) => { if (event.target === surpriseOverlay) { hideSurprise(); } });
 
 } else {
-    console.error("Surprise feature initialization failed. Check HTML IDs:", {
-        surpriseBtnFound: !!surpriseBtn, surpriseOverlayFound: !!surpriseOverlay, surpriseMessageFound: !!surpriseMessage, closeSurpriseBtnFound: !!closeSurpriseBtn, surpriseCardFound: !!surpriseCard
-    });
+    console.error("Surprise feature initialization failed. Check HTML IDs:", { surpriseBtnFound: !!surpriseBtn, surpriseOverlayFound: !!surpriseOverlay, surpriseMessageFound: !!surpriseMessage, closeSurpriseBtnFound: !!closeSurpriseBtn, surpriseCardFound: !!surpriseCard });
 }
 //
 // --- ⬆️ END OF SURPRISE COMPLIMENTS SECTION ⬆️ ---
@@ -640,11 +579,11 @@ window.addEventListener('keydown', (e) => {
     const isEditingLetter = activeEl === letterEdit;
 
     // Secret Code (only if not focused on major inputs)
-    if (!isTyping || (![msgInput, memoryInput, bucketListItemInput, reasonInput].includes(activeEl) && !isEditingLetter )) {
+    const canTriggerSecret = !isTyping || (![msgInput, memoryInput, bucketListItemInput, reasonInput, spotifyLinkInput].includes(activeEl) && !isEditingLetter);
+    if (canTriggerSecret) {
        if (key === secret[idx]) { idx++; if (idx === secret.length) { idx = 0; alert('You found the secret! ♥\n\nA little note for you: "I love you more every day."'); } } else { idx = (key === secret[0]) ? 1 : 0; }
     } else if (isTyping) {
-        // Reset secret index if typing and key doesn't match start
-        idx = (key === secret[0]) ? 1 : 0;
+        idx = (key === secret[0]) ? 1 : 0; // Reset secret index if typing and key doesn't match start
     }
 
     // Accessibility (only if not typing at all)
@@ -662,26 +601,47 @@ if (exportZipBtn && letters) {
         const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        a.href = url;
-        a.download = 'matthew-jordan-package.txt';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        a.href = url; a.download = 'matthew-jordan-package.txt';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
         URL.revokeObjectURL(url);
         alert('Exported letter as text. (Adding images requires a library like JSZip.)');
     });
 }
 
+// --- Spotify Embed Update --- (Optional Feature)
+if (spotifyPlayer && spotifyLinkInput && updateSpotifyBtn && spotifyEmbedUrlRef && spotifyUpdateSection) {
+    updateSpotifyBtn.addEventListener('click', () => {
+        const newUrl = spotifyLinkInput.value.trim();
+        // Slightly broader check for Spotify embed URLs
+        if (newUrl && newUrl.includes('http://googleusercontent.com/spotify.com/3')) { // Adjusted check
+            spotifyEmbedUrlRef.set(newUrl)
+                .then(() => { spotifyLinkInput.value = ''; alert('Spotify embed updated!'); })
+                .catch(error => { console.error("Error updating Spotify URL:", error); alert(`Could not update Spotify URL. ${error.code === 'PERMISSION_DENIED' ? 'Are you logged in?' : 'Please try again.'}`); });
+        } else {
+            alert('Invalid Spotify Embed URL. Please paste the URL from the "src=\'...\'" part of Spotify\'s embed code.');
+        }
+    });
+
+    spotifyEmbedUrlRef.on('value', (snapshot) => {
+        const savedUrl = snapshot.val();
+        if (savedUrl && typeof savedUrl === 'string') {
+            spotifyPlayer.src = savedUrl;
+            console.log("Spotify player SRC updated:", savedUrl);
+        } else {
+            spotifyPlayer.src = ''; // Clear src if no URL is saved
+            console.log("No Spotify URL found in Firebase.");
+        }
+    });
+} else {
+    console.warn("Spotify update elements or Firebase ref missing.");
+    if (spotifyUpdateSection) spotifyUpdateSection.style.display = 'none'; // Ensure it's hidden if not functional
+}
+
 // Final check: Ensure editing is disabled initially if auth hasn't loaded yet
 document.addEventListener('DOMContentLoaded', () => {
-    if (typeof firebaseAuth === 'undefined' || !firebaseAuth) {
-         console.log("Firebase Auth not ready on DOMContentLoaded, disabling editing initially.");
-         setEditingEnabled(false);
-    } else {
-         // If auth IS ready, check current state immediately
-         const user = firebaseAuth.currentUser;
-         console.log("DOMContentLoaded: Initial user check:", user ? user.email : 'None');
-         setEditingEnabled(!!user); // Enable/disable based on immediate check
-         // The onAuthStateChanged listener will still run and update if state changes later
-    }
+    // Check immediately if auth object exists AND if there's already a user
+    const initialUser = (typeof firebaseAuth !== 'undefined' && firebaseAuth) ? firebaseAuth.currentUser : null;
+    console.log("DOMContentLoaded: Initial user check:", initialUser ? initialUser.email : 'None');
+    setEditingEnabled(!!initialUser);
+    // The onAuthStateChanged listener will handle subsequent changes.
 });
