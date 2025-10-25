@@ -1,274 +1,272 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>For Jordan — From Matthew ♥</title>
-  
-  <link rel="icon" href="jordan photos for web/jordy 11 main.jpg">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>For Jordan — From Matthew ♥</title>
+    
+    <link rel="icon" href="jordan photos for web/jordy 11 main.jpg"> 
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <canvas id="hearts"></canvas>
+    <canvas id="hearts"></canvas>
 
-    <div class="splash" id="splash">
-    <div class="splash-card card">
-      <h2>For Jordan — A little world I built for you ♥</h2>
-      <p>Hey — i made this for you out of love
-      A small place where I keep letters, memories, dumb jokes, secrets, and plans for us. Click "Enter" when you want to come inside.</p>
-      <div class="enter-row">
-        <button class="enter-btn" id="enterBtn">Enter the page</button>
-        <button class="soft-btn" id="peekBtn">Peek at a surprise</button>
-        <button class="soft-btn" id="muteMusic">Mute / Play music</button>
-      </div>
-      <div class="small-note">Tip: Press <strong>M</strong> to open the message board once inside. Press <strong>P</strong> to toggle peeks.</div>
-    </div>
-  </div>
-
-  <header>
-  <div class="logo">
-    <div class="heart">♥</div>
-    <h1>For Jordan — From Matthew</h1>
-  </div>
-  <nav class="nav" aria-label="main navigation">
-    <a href="#letter">Love Letter</a>
-    <a href="#memories">Memories</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#fun">Fun</a>
-    <a href="#extras">Extras</a>
-
-    <button class="soft-btn" id="loginBtn" style="margin-left: 15px;">Admin Login</button>
-    <button class="soft-btn" id="logoutBtn" style="margin-left: 15px; display: none;">Logout</button>
-    </nav>
-</header>
-  <main class="container" id="mainContent" aria-hidden="true">
-    <div class="hero card">
-      <div class="intro">
-        <h2>To my Jordy, my heart, my soft spot ♥</h2>
-        <p class="typewriter" id="type-hero">i love you so much my baby mwah mwah... enter when you're ready.</p>
-        <p class="love-letter">This page is a small corner of the internet where all the little things I love about you are written down: your laugh, the way you roll your eyes, the small things that make ordinary days shine. I wrote these words because sometimes the loudest way to say "I love you" is to be thoughtful. So here — for you. 💌</p>
-        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-          <a class="btn" href="#letter">Read my letter</a>
-          <a class="btn" href="#memories">See our memories</a>
-        </div>
-      </div>
-
-      <aside class="couple-photo">
-        <img id="mainPhoto" src="jordan photos for web/WhatsApp Image 2025-10-25 at 21.10.12_c9dadd5b.jpg" alt="Us together">
-        <div class="names">
-          <div class="tag">Matthew</div>
-          <div class="tag">&hearts;</div>
-          <div class="tag">Jordan</div>
-        </div>
-      </aside>
-    </div>
-
-        <section id="letter" class="card">
-      <div class="section-title"><h3>Love Letter Read slowly 💌</h3></div>
-      <div class="love-letter" id="letters">
-        <p><strong>My baby Jordan,</strong></p>
-        <p>I love you so much, my baby. Sometimes I still can’t believe we’ve been together for this long, it feels unreal in the best way possible. Even though everything between us has been online, it feels more real than anything else I’ve ever known. Every video call, every late night laugh, every sleepy “I love you” before bed… they’ve all become the moments I look forward to the most every single day. When I see your face pop up on my screen, everything else just kinda fades away. It’s crazy how someone miles away can make me feel so close, so safe, and so loved.</p>
-
-        <p>I made this small thing because I wanted to make you feel appreciated, even if it’s just a little bit. It’s not fancy or expensive, but it’s from my heart and I hope that when you read this, you feel even a fraction of how much I care about you. You mean so much to me, my baby. You are my world, my peace, my reason to smile when I wake up. You’ve shown me what real love feels like, not just the butterflies, but the comfort, the laughter, the way you make everything feel okay even when life gets hard.</p>
-
-        <p>Every day that passes, my love for you grows even more. Sometimes I think my heart’s gonna explode because of how much I adore you. I never knew I could love someone this deeply until I met you. You’ve become such a huge part of me, and I wouldn’t trade what we have for anything. One day, I’ll get to hold you for real, not just through a screen, and when that day comes, I’m never letting go. Until then, I’ll keep loving you with all my heart. 💞</p>
-
-              </div>
-
-      <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
-        <button class="btn" id="editLetters">Edit letter</button>
-        <button class="soft-btn" id="downloadLetter">Download as TXT</button>
-        <div style="margin-left:auto;color:rgba(255,255,255,0.6);font-size:13px">Tip: click "Edit" to add your own lines.</div>
-      </div>
-
-            <div id="editorArea" style="margin-top:12px;display:none">
-        <textarea id="letterEdit"></textarea>
-        <div style="display:flex;gap:8px;margin-top:8px">
-          <button class="btn" id="saveLetter">Save</button>
-          <button class="soft-btn" id="cancelEdit">Cancel</button>
-        </div>
-      </div>
-    </section>
-
-        <section id="memories" class="card">
-      <div class="section-title"><h3>Our Little Big Moments 💖</h3></div>
-      <div class="timeline" id="timelineList">
-      </div>
-
-      <div style="margin-top:12px;display:flex;gap:8px">
-        <input id="memoryInput" placeholder="Add a memory...">
-        <button class="btn" id="addMemory">Add</button>
-      </div>
-    </section>
-
-        <section id="gallery" class="card">
-      <div class="section-title"><h3>Gallery — Photos & screenshots 📸</h3></div>
-      <p style="color:rgba(255,255,255,0.8);font-size:15px;margin-top:10px">Some of our favorite moments and your lovely selfies. 💕</p>
-      
-      <div class="gallery">
-        <div class="photo">
-          <img src="jordan photos for web/jordy 1.jpg" alt="A special moment 1" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
-        </div>
-        <div class="photo">
-          <img src="jordan photos for web/jordy 2.jpg
-" alt="A special moment 2" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
-        </div>
-        <div class="photo">
-          <img src="jordan photos for web/jordy 3.jpg
-" alt="A special moment 3" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
-        </div>
-        <div class="photo">
-          <img src="jordan photos for web/jordy 4.jpg
-" alt="A special moment 4" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
-        </div>
-        <div class="photo">
-          <img src="jordan photos for web/jordy 5.jpg
-" alt="A special moment 5" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
-        </div>
-        <div class="photo">
-          <img src="jordan photos for web/jordy 6.jpg
-" alt="A special moment 6" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
-        </div>
-        <div class="photo">
-          <img src="jordan photos for web/jordy 7.jpg" alt="A special moment 7" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
-        </div>
-        <div class="photo">
-          <img src="jordan photos for web/jordy 8.jpg
-" alt="A special moment 7" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
-        </div>
-        <div class="photo">
-          <img src="jordan photos for web/jordy 9.jpg
-" alt="A special moment 7" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
-        </div>
-      </div>
-    </section>
-
-        <section id="fun" class="card">
-      <div class="section-title"><h3>Fun Stuff, play with it!</h3></div>
-      <div class="fun">
-        <div>
-          <div class="meter card">
-            <strong>Love Meter</strong>
-            <input type="range" id="loveRange" min="0" max="100" value="92">
-            <div id="loveVal">92% ♥</div>
-            <div style="margin-top:10px">
-              <button class="btn" id="surpriseBtn">Surprise me</button>
-            </div>
-          </div>
-
-          <div style="margin-top:12px" class="card">
-            <strong>Countdown to our meetup</strong>
-            <p style="color:rgba(255,255,255,0.8);font-size:14px">Set a date you plan to meet and this will show how many days remain.</p>
-            <input type="date" id="meetDate">
-            <div style="margin-top:8px;color:rgba(255,255,255,0.9)" id="countdown">No date set.</div>
-          </div>
-        </div>
-
-        <div>
-          <div class="message-board card">
-            <strong>Leave a message</strong>
-            <textarea id="msg" placeholder="Type a sweet message..." ></textarea>
-            <div style="margin-top:8px;display:flex;gap:8px">
-              <button class="btn" id="postMsg">Post it</button>
-              <button class="btn" id="clearMsg" style="background:linear-gradient(90deg,#ffd6e6,#fff)">Clear</button>
-            </div>
-            <div id="board" style="margin-top:12px"></div>
-          </div>
-
-          <div style="margin-top:12px" class="coupon card">
-            <strong>Love Coupon</strong>
-            <p>Good for: One big hug + choice of movie. Redeemable any day. (No refunds.)</p>
-            <small style="color:rgba(255,255,255,0.6)">Cut along the dashed line... or just pretend, it's the thought that counts.</small>
-          </div>
-        </div>
-      </div>
-
-     <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div class="card">
-          <strong>Scavenger Hunt (tiny)</strong>
-          <p style="color:rgba(255,255,255,0.8)">Find the hidden heart: Press the keys <strong>H E A R T</strong> in order anywhere on this page. You'll get a cute surprise!</p>
-        </div>
-
-        <div class="card">
-          <strong>Secret Promises</strong>
-          <ul>
-             <li>I'll never make you feel unwanted.</li>
-            <li>I'll be there for you always, whenever you need me I will be there.</li>
-            <li>I'll always love you with all of my heart.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-        <section id="extras" class="card">
-      <div class="section-title"><h3>Extras ✨</h3></div>
-      <p style="color:rgba(255,255,255,0.8)">Here's a song you said you liked lol.</p>
-<iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/3iRoXGFrF8O0jTul6LAmus?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
-<div style="margin-top: 20px; border-top: 1px solid var(--glass); padding-top: 20px;">
-      <h4>Our Bucket List 📝</h4>
-      <div id="bucketListContainer" style="margin-bottom: 12px; max-height: 250px; overflow-y: auto; padding-right: 10px;">
+    <div class="splash" id="splash">
+        <div class="splash-card card">
+            <h2>For Jordan — A little world I built for you ♥</h2>
+            <p>Hey — I made this for you out of love. A small place where I keep letters, memories, dumb jokes, secrets, and plans for us. Click "Enter" when you want to come inside.</p>
+            <div class="enter-row">
+                <button class="enter-btn" id="enterBtn">Enter the page</button>
+                <button class="soft-btn" id="peekBtn">Peek at a surprise</button>
+                <button class="soft-btn" id="muteMusic">Mute / Play music</button>
+            </div>
+            <div class="small-note">Tip: Press <strong>M</strong> to open the message board once inside. Press <strong>P</strong> to toggle peeks.</div>
         </div>
-      <div style="display:flex; gap:8px;">
-        <input id="bucketListItemInput" placeholder="Add a new goal..." style="flex:1;">
-        <button class="btn" id="addBucketListItemBtn">Add</button>
-      </div>
     </div>
+
+    <header>
+        <div class="logo">
+            <div class="heart">♥</div>
+            <h1>For Jordan — From Matthew</h1>
+        </div>
+        <nav class="nav" aria-label="main navigation">
+            <a href="#letter">Love Letter</a>
+            <a href="#memories">Memories</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#fun">Fun</a>
+            <a href="#extras">Extras</a>
+            
+            <button class="soft-btn" id="loginBtn" style="margin-left: 15px;">Admin Login</button>
+            <button class="soft-btn" id="logoutBtn" style="margin-left: 15px; display: none;">Logout</button>
+        </nav>
+    </header>
+
+    <main class="container" id="mainContent" aria-hidden="true">
+        <div class="hero card">
+            <div class="intro">
+                <h2>To my Jordy, my heart, my soft spot ♥</h2>
+                <p class="typewriter" id="type-hero">i love you so much my baby mwah mwah... enter when you're ready.</p>
+                <p class="love-letter">This page is a small corner of the internet where all the little things I love about you are written down: your laugh, the way you roll your eyes, the small things that make ordinary days shine. I wrote these words because sometimes the loudest way to say "I love you" is to be thoughtful. So here — for you. 💌</p>
+                <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                    <a class="btn" href="#letter">Read my letter</a>
+                    <a class="btn" href="#memories">See our memories</a>
+                </div>
+            </div>
+
+            <aside class="couple-photo">
+                <img id="mainPhoto" src="jordan photos for web/WhatsApp Image 2025-10-25 at 21.10.12_c9dadd5b.jpg" alt="Us together">
+                <div class="names">
+                    <div class="tag">Matthew</div>
+                    <div class="tag">♥</div>
+                    <div class="tag">Jordan</div>
+                </div>
+                 <small style="color:rgba(255,255,255,0.7);margin-top:8px">Tip: Ensure image path/name matches GitHub!</small>
+            </aside>
+        </div>
+
+        <section id="letter" class="card">
+            <div class="section-title"><h3>Love Letter — Read slowly 💌</h3></div> 
+            <div class="love-letter" id="letters">
+                <p><strong>My baby Jordan,</strong></p>
+                <p>I love you so much, my baby. Sometimes I still can’t believe we’ve been together for this long, it feels unreal in the best way possible. Even though everything between us has been online, it feels more real than anything else I’ve ever known. Every video call, every late night laugh, every sleepy “I love you” before bed… they’ve all become the moments I look forward to the most every single day. When I see your face pop up on my screen, everything else just kinda fades away. It’s crazy how someone miles away can make me feel so close, so safe, and so loved.</p>
+                <p>I made this small thing because I wanted to make you feel appreciated, even if it’s just a little bit. It’s not fancy or expensive, but it’s from my heart and I hope that when you read this, you feel even a fraction of how much I care about you. You mean so much to me, my baby. You are my world, my peace, my reason to smile when I wake up. You’ve shown me what real love feels like, not just the butterflies, but the comfort, the laughter, the way you make everything feel okay even when life gets hard.</p>
+                <p>Every day that passes, my love for you grows even more. Sometimes I think my heart’s gonna explode because of how much I adore you. I never knew I could love someone this deeply until I met you. You’ve become such a huge part of me, and I wouldn’t trade what we have for anything. One day, I’ll get to hold you for real, not just through a screen, and when that day comes, I’m never letting go. Until then, I’ll keep loving you with all my heart. 💞</p>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+                <button class="btn" id="editLetters">Edit letter</button>
+                <button class="soft-btn" id="downloadLetter">Download as TXT</button>
+                <div style="margin-left:auto;color:rgba(255,255,255,0.6);font-size:13px">Tip: click "Edit" to add your own lines.</div>
+            </div>
+            <div id="editorArea" style="margin-top:12px;display:none">
+                <textarea id="letterEdit"></textarea>
+                <div style="display:flex;gap:8px;margin-top:8px">
+                    <button class="btn" id="saveLetter">Save</button>
+                    <button class="soft-btn" id="cancelEdit">Cancel</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="memories" class="card">
+            <div class="section-title"><h3>Our Little Big Moments 💖</h3></div>
+            <div class="timeline" id="timelineList">
+                </div>
+            <div style="margin-top:12px;display:flex;gap:8px">
+                <input id="memoryInput" placeholder="Add a memory...">
+                <button class="btn" id="addMemory">Add</button>
+            </div>
+        </section>
+
+        <section id="gallery" class="card">
+            <div class="section-title"><h3>Gallery — Photos & screenshots 📸</h3></div>
+            <p style="color:rgba(255,255,255,0.8);font-size:15px;margin-top:10px">Some of our favorite moments and your lovely selfies. 💕</p>
+            <div class="gallery">
+                <div class="photo">
+                    <img src="jordan photos for web/jordy 1.jpg" alt="Jordan 1" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="photo">
+                    <img src="jordan photos for web/jordy 2.jpg" alt="Jordan 2" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="photo">
+                    <img src="jordan photos for web/jordy 3.jpg" alt="Jordan 3" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="photo">
+                    <img src="jordan photos for web/jordy 4.jpg" alt="Jordan 4" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="photo">
+                    <img src="jordan photos for web/jordy 5.jpg" alt="Jordan 5" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="photo">
+                    <img src="jordan photos for web/jordy 6.jpg" alt="Jordan 6" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="photo">
+                    <img src="jordan photos for web/jordy 7.jpg" alt="Jordan 7" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="photo">
+                    <img src="jordan photos for web/jordy 8.jpg" alt="Jordan 8" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+                <div class="photo">
+                    <img src="jordan photos for web/jordy 9.jpg" alt="Jordan 9" style="max-width:100%; max-height:100%; object-fit:cover; border-radius:8px;">
+                </div>
+            </div>
+             <small style="color:rgba(255,255,255,0.7);margin-top:8px">Tip: Make sure image paths/names are exact!</small>
+        </section>
+
+        <section id="fun" class="card">
+            <div class="section-title"><h3>Fun Stuff — play with it! 🥳</h3></div>
+            <div class="fun">
+                <div>
+                    <div class="meter card">
+                        <strong>Love Meter</strong>
+                        <input type="range" id="loveRange" min="0" max="100" value="92">
+                        <div id="loveVal">92% ♥</div>
+                        <div style="margin-top:10px">
+                            <button class="btn" id="surpriseBtn">Surprise me</button>
+                        </div>
+                    </div>
+                    <div style="margin-top:12px" class="card">
+                        <strong>Countdown to our meetup</strong>
+                        <p style="color:rgba(255,255,255,0.8);font-size:14px">Set a date you plan to meet and this will show how many days remain.</p>
+                        <input type="date" id="meetDate" value="2025-11-20"> <div style="margin-top:8px;color:rgba(255,255,255,0.9)" id="countdown">Calculating...</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="message-board card">
+                        <strong>Leave a message for Jordan</strong> 
+                        <textarea id="msg" placeholder="Type a sweet message..." ></textarea>
+                        <div style="margin-top:8px;display:flex;gap:8px">
+                            <button class="btn" id="postMsg">Post it</button>
+                            <button class="btn" id="clearMsg" style="background:linear-gradient(90deg,#ffd6e6,#fff)">Clear</button>
+                        </div>
+                        <div id="board" style="margin-top:12px; max-height: 200px; overflow-y: auto; padding-right: 5px;"></div>
+                    </div>
+                    <div style="margin-top:12px" class="coupon card">
+                        <strong>Love Coupon</strong>
+                        <p>Good for: One big hug + choice of movie. Redeemable any day. (No refunds.)</p>
+                        <small style="color:rgba(255,255,255,0.6)">Cut along the dashed line... or just pretend, it's the thought that counts.</small>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <div class="card">
+                    <strong>Scavenger Hunt (tiny)</strong>
+                    <p style="color:rgba(255,255,255,0.8)">Find the hidden heart: Press the keys <strong>H E A R T</strong> in order anywhere on this page. You'll get a cute surprise!</p>
+                </div>
+                <div class="card">
+                    <strong>Secret Promises</strong>
+                    <ul>
+                         <li>I'll never make you feel unwanted.</li>
+                         <li>I'll be there for you always, whenever you need me I will be there.</li>
+                         <li>I'll always love you with all of my heart.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="extras" class="card">
+            <div class="section-title"><h3>Extras ✨</h3></div>
+            <p style="color:rgba(255,255,255,0.8)">Here's a song you said you liked lol.</p>
+            
+            <iframe 
+                data-testid="embed-iframe" 
+                style="border-radius:12px; margin-top: 10px;" 
+                src="https://open.spotify.com/embed/track/3iRoXGFrF8O0jTul6LAmus?utm_source=generator" 
+                width="100%" 
+                height="152" /* Adjusted height for single track, change if needed */
+                frameBorder="0" 
+                allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy">
+            </iframe>
+            <div style="margin-top: 20px; border-top: 1px solid var(--glass); padding-top: 20px;">
+                <h4>Our Bucket List 📝</h4>
+                <div id="bucketListContainer" style="margin-bottom: 12px; max-height: 250px; overflow-y: auto; padding-right: 10px;">
+                    </div>
+                <div style="display:flex; gap:8px;">
+                    <input id="bucketListItemInput" placeholder="Add a new goal..." style="flex:1;">
+                    <button class="btn" id="addBucketListItemBtn">Add</button>
+                </div>
+            </div>
+            
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:20px; border-top: 1px solid var(--glass); padding-top: 20px;">
+                <button class="btn" id="printLetterBtn">Print letter</button>
+                <button class="soft-btn" id="exportZip">Export as ZIP (photos + letter)</button>
+            </div>
+
+            <section id="reasonsJar" class="card">
+    <div class="section-title"><h3>Reasons I Love You Jar ❤️</h3></div>
+    <p style="color:rgba(255,255,255,0.8);font-size:15px;margin-top:10px">Little notes about why you're amazing...</p>
+
+    <div id="reasonsContainer" style="margin-top: 15px; margin-bottom: 15px; max-height: 300px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 10px;">
+        </div>
+
+    <div id="addReasonSection" style="display: flex; gap: 8px; border-top: 1px solid var(--glass); padding-top: 15px;">
+        <input id="reasonInput" placeholder="Add a reason..." style="flex:1;">
+        <button class="btn" id="addReasonBtn">Add to Jar</button>
+    </div>
+</section>
+        </section>
+
+        <footer>
+            <div style="font-family:'Indie Flower', cursive;font-size:20px">Made with lots of care and slight embarrassment. ♥</div>
+            <div style="margin-top:8px;color:rgba(255,255,255,0.6)">P.S. We can edit any of this text and swap photos. This page is for both of us to keep and grow. 🌱</div>
+        </footer>
+    </main>
+
+    <audio id="bgMusic" loop src="" preload="none"></audio>
     
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-        <button class="btn" id="printLetterBtn">Print letter</button>
-        <button class="soft-btn" id="exportZip">Export as ZIP (photos + letter)</button>
-     </div>
-    </section>
+    <div id="surpriseOverlay" class="surprise-overlay hidden">
+        <div class="surprise-card card">
+            <p id="surpriseMessage"></p>
+            <button id="closeSurpriseBtn" class="soft-btn">Close</button>
+        </div>
+    </div>
 
-    <footer>
-      <div style="font-family:'Indie Flower', cursive;font-size:20px">Made with lots of care and slight embarrassment. ♥</div>
-      <div style="margin-top:8px;color:rgba(255,255,255,0.6)">P.S. We can edit any of this text and swap photos. This page is for both of usw to keep and grow. 🌱</div>
-   </footer>
-  </main>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script> 
+    <script>
+        // Paste your actual config object here
+        const firebaseConfig = {
+            apiKey: "AIzaSyCh2Tvc992-QacVp2IvKqnrvTKz6LtZQVA", // Example - Use your actual key
+            authDomain: "matthew-and-jordan-page.firebaseapp.com",
+            databaseURL: "https://matthew-and-jordan-page-default-rtdb.firebaseio.com",
+            projectId: "matthew-and-jordan-page",
+            storageBucket: "matthew-and-jordan-page.appspot.com", // Check this value!
+            messagingSenderId: "755514969891",
+            appId: "1:755514969891:web:72643af16fd943d7074696",
+            measurementId: "G-DFXNN6WDTG" 
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+        const auth = firebase.auth(); 
+    </script>
 
-<audio id="bgMusic" loop src="" preload="none"></audio>
-
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script> 
-
-<script>
-  // Paste your actual config object here
-  const firebaseConfig = {
-    apiKey: "AIzaSyCh2Tvc992-QacVp2IvKqnrvTKz6LtZQVA",
-    authDomain: "matthew-and-jordan-page.firebaseapp.com",
-    databaseURL: "https://matthew-and-jordan-page-default-rtdb.firebaseio.com",
-    projectId: "matthew-and-jordan-page",
-    storageBucket: "matthew-and-jordan-page.firebasestorage.app", // Corrected property name
-    messagingSenderId: "755514969891",
-    appId: "1:755514969891:web:72643af16fd943d7074696",
-    measurementId: "G-DFXNN6WDTG" // Optional, keep if you plan to use Analytics
-  };
-
-  // Initialize Firebase App
-  firebase.initializeApp(firebaseConfig);
-
-  // Get references to Firebase services
-  const database = firebase.database();
-  const auth = firebase.auth(); 
-</script>
-
-<script src="script.js"></script>
+    <script src="script.js"></script> 
 
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
