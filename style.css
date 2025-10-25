@@ -165,7 +165,7 @@ main.container {
   font-weight: 700;
   line-height: 1;
 }
-.soft-btn:hover {
+.soft-btn:hover:not(:disabled) {
   background: var(--glass);
   border-color: rgba(255, 255, 255, 0.2);
   transform: scale(1.05);
@@ -179,7 +179,8 @@ main.container {
     transform: none;
     box-shadow: none;
 }
-.soft-btn:disabled:hover, /* Prevent hover effects when disabled */
+/* Prevent hover effects when disabled */
+.soft-btn:disabled:hover,
 .btn:disabled:hover {
     transform: none;
     box-shadow: none;
@@ -190,12 +191,7 @@ main.container {
   transform: scale(1.05);
   box-shadow: var(--glow);
 }
-/* Ensure hover transform on non-disabled soft-btn is reset */
-.soft-btn:hover:not(:disabled) {
-  transform: scale(1.05);
-  background: var(--glass); /* Keep hover background */
-  border-color: rgba(255, 255, 255, 0.2); /* Keep hover border */
-}
+
 
 .small-note {
   font-size: 13px;
@@ -298,6 +294,18 @@ section {
   color: white;
 }
 
+/* Section specific heading styling if needed */
+#extras h4, #extras h5 {
+    font-family: 'Indie Flower', cursive;
+    color: var(--accent-2);
+    margin-bottom: 8px;
+}
+#extras h5 { /* Smaller heading for Spotify update */
+    font-size: 1.1em;
+    margin-top: 0;
+}
+
+
 .love-letter {
   white-space: pre-wrap;
   font-size: 17px;
@@ -313,6 +321,7 @@ section {
   margin: 24px 0;
   opacity: 0.5;
 }
+
 
 .timeline {
   display: flex;
@@ -381,7 +390,7 @@ section {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ensure image covers the area */
+  object-fit: cover;
 }
 
 .photo small {
@@ -410,10 +419,12 @@ section {
   padding: 12px;
 }
 
+/* General Input Styles */
 textarea,
+input[type="text"], /* More specific */
+input[type="url"],  /* Added type url */
 input[placeholder],
-input[type=date],
-input#bucketListItemInput /* Apply base styles to bucket list input */
+input[type="date"]
 {
   width: 100%;
   min-height: 44px;
@@ -430,9 +441,10 @@ textarea {
   min-height: 120px;
 }
 textarea:focus,
+input[type="text"]:focus,
+input[type="url"]:focus,
 input[placeholder]:focus,
-input[type=date]:focus,
-input#bucketListItemInput:focus
+input[type="date"]:focus
 {
   outline: none;
   border-color: var(--accent);
@@ -479,7 +491,7 @@ footer {
   font-family: inherit;
   font-size: inherit;
 }
-.btn:hover:not(:disabled) { /* Only apply hover when not disabled */
+.btn:hover:not(:disabled) {
   transform: scale(1.05);
   box-shadow: var(--glow);
 }
@@ -591,12 +603,12 @@ footer {
   transform: translateY(-1px);
 }
 
-.meter #surpriseBtn:hover:not(:disabled) { /* Prevent hover effect when disabled */
+.meter #surpriseBtn:hover:not(:disabled) {
   transform: scale(1.08) rotate(-2deg);
   box-shadow: 0 6px 20px rgba(255, 117, 143, 0.4);
 }
 
-.meter #surpriseBtn:active:not(:disabled) { /* Prevent active effect when disabled */
+.meter #surpriseBtn:active:not(:disabled) {
   transform: scale(0.95);
   box-shadow: 0 2px 10px rgba(255, 117, 143, 0.2);
 }
@@ -611,6 +623,33 @@ footer {
   100% { transform: scale(1); opacity: 1; box-shadow: 0 4px 15px rgba(255, 117, 143, 0.3); }
 }
 
+/* --- Reasons Jar Styling --- */
+#reasonsContainer .reason-note {
+  background: linear-gradient(135deg, var(--accent-2), #fff1f4); /* Light pink gradient */
+  color: #530580; /* Darker text for contrast */
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-family: 'Indie Flower', cursive; /* Use the cutesy font */
+  font-size: 18px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  transform: rotate(-1deg); /* Slight default tilt */
+  transition: transform 0.2s ease;
+}
+
+#reasonsContainer .reason-note:nth-child(even) {
+    transform: rotate(1deg); /* Tilt the other way */
+}
+
+#reasonsContainer .reason-note:hover {
+    transform: scale(1.03) rotate(0deg); /* Straighten and slightly enlarge on hover */
+    z-index: 5; /* Bring to front on hover */
+    position: relative; /* Needed for z-index */
+}
+
+#addReasonBtn::before {
+  content: '💖 '; /* Add heart before text */
+}
 
 /* responsive */
 @media (max-width: 880px) {
@@ -622,7 +661,7 @@ footer {
   }
   .names {
     flex-wrap: wrap;
-    justify-content: center; /* Center tags when wrapped */
+    justify-content: center;
   }
   .splash-card {
     padding: 18px;
@@ -632,7 +671,6 @@ footer {
   }
 }
 
-/* Responsive adjustments for header/nav */
 @media (max-width: 650px) {
     header {
         flex-direction: column;
@@ -649,40 +687,11 @@ footer {
         justify-content: flex-start;
         margin-top: 8px;
     }
-    .nav a, .nav button.soft-btn { /* Apply sizing to nav buttons too */
+    .nav a, .nav button.soft-btn {
         font-size: 13px;
         padding: 6px 10px;
     }
     main.container {
-        margin-top: 150px; /* Adjust if header height changes significantly */
+        margin-top: 150px;
     }
-}
-
-/* --- Reasons Jar Styling --- */
-#reasonsContainer .reason-note {
-  background: linear-gradient(135deg, var(--accent-2), #fff1f4); /* Light pink gradient */
-  color: #530580; /* Darker text for contrast */
-  padding: 10px 15px;
-  border-radius: 8px;
-  margin-bottom: 10px;
-  font-family: 'Indie Flower', cursive; /* Use the cutesy font */
-  font-size: 18px;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-  transform: rotate(-1deg); /* Slight random tilt (optional) */
-  transition: transform 0.2s ease;
-}
-
-#reasonsContainer .reason-note:nth-child(even) {
-    transform: rotate(1deg); /* Tilt the other way */
-}
-
-#reasonsContainer .reason-note:hover {
-    transform: scale(1.03) rotate(0deg); /* Straighten and slightly enlarge on hover */
-    z-index: 5; /* Bring to front on hover */
-    position: relative; /* Needed for z-index */
-}
-
-/* Style the add button */
-#addReasonBtn::before {
-  content: '💖 '; /* Add heart before text */
 }
