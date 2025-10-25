@@ -72,12 +72,17 @@
         <section id="letter" class="card">
             <div class="section-title"><h3>Love Letter — Read slowly 💌</h3></div> 
             <div class="love-letter" id="letters">
-                <p><strong>My baby Jordan,</strong></p>
-                <p>I love you so much, my baby. Sometimes I still can’t believe we’ve been together for this long, it feels unreal in the best way possible. Even though everything between us has been online, it feels more real than anything else I’ve ever known. Every video call, every late night laugh, every sleepy “I love you” before bed… they’ve all become the moments I look forward to the most every single day. When I see your face pop up on my screen, everything else just kinda fades away. It’s crazy how someone miles away can make me feel so close, so safe, and so loved.</p>
-                <p>I made this small thing because I wanted to make you feel appreciated, even if it’s just a little bit. It’s not fancy or expensive, but it’s from my heart and I hope that when you read this, you feel even a fraction of how much I care about you. You mean so much to me, my baby. You are my world, my peace, my reason to smile when I wake up. You’ve shown me what real love feels like, not just the butterflies, but the comfort, the laughter, the way you make everything feel okay even when life gets hard.</p>
-                <p>Every day that passes, my love for you grows even more. Sometimes I think my heart’s gonna explode because of how much I adore you. I never knew I could love someone this deeply until I met you. You’ve become such a huge part of me, and I wouldn’t trade what we have for anything. One day, I’ll get to hold you for real, not just through a screen, and when that day comes, I’m never letting go. Until then, I’ll keep loving you with all my heart. 💞</p>
+                <p><strong>I love you so much, my baby. My Jordy.</strong></p>
+                <p>It's crazy to think it's been five months already. Sometimes it feels unreal, you know? But in the best way. Like, how has it only been five months? It feels like I've known you forever. And even with all the distance, just being online, this feels more real than anything I've ever had.</p>
+                <p>I seriously look forward to our calls all day. Just waiting to see your face pop up on my screen. All the stupid stuff from my day just... disappears. It's just you. Nothing else matters. Every time we laugh late at night, every sleepy 'i love you' before we pass out on the call... those are my favorite moments. It's insane how you can be so far away but still make me feel this close and this safe.</p>
+                <p>I love every single thing we do. Even just talking for hours about nothing. And I love our dumb Roblox nights, whether we're trying to be all chill in 'Grow a Garden' or just dying laughing in 'Violence District.' And don't even get me started on 'The Forest' and 'Sons of the Forest.' Us trying to survive and build a base while freaking out... it's the best. Honestly, I don't even care what we're playing. It's just getting to be with you, hanging out in our own little world. You just make everything fun.</p>
+                <p>I dunno, I just wanted to write all this out. I really wanted to try and make you feel appreciated, even if it's just a little bit. It's not some fancy gift, but it's just... me. It's from my heart. I hope when you read this you can feel even a little bit of how much I care about you.</p>
+                <p>You mean everything to me, Jordy. You're my favorite person, my reason to smile, my peace. You've shown me what real love actually feels like. It's not just the butterfly thing (though I still get that when you smile). It's the comfort. It's knowing I can be 100% myself. It's how you make everything feel okay, even when life is hard and this distance sucks. Just hearing your voice can calm me down.</p>
+                <p>I feel like I love you more every single day. It's crazy. Sometimes I honestly feel like my heart is just gonna explode with how much I adore you. I never knew I could love anyone like this. You're such a huge part of me now, and I wouldn't trade this for anything.</p>
+                <p>I am counting the literal seconds until the day I can hold you for real, not just through a phone. I promise you, one day I'm going to hug you so tight and finally feel you in my arms. I'm going to kiss your forehead and hold your hand, and I am never letting go.</p>
+                <p>Until then, I'm right here. I'll keep loving you with everything I have. 💞</p>
             </div>
-            <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+             <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
                 <button class="btn" id="editLetters">Edit letter</button>
                 <button class="soft-btn" id="downloadLetter">Download as TXT</button>
                 <div style="margin-left:auto;color:rgba(255,255,255,0.6);font-size:13px">Tip: click "Edit" to add your own lines.</div>
@@ -189,24 +194,33 @@
 
         <section id="extras" class="card">
             <div class="section-title"><h3>Extras ✨</h3></div>
-            <p style="color:rgba(255,255,255,0.8)">Here's a song you said you liked lol.</p>
+            <p style="color:rgba(255,255,255,0.8)">Here's a song for you.</p> 
             
             <iframe 
+                id="spotifyPlayer" 
                 data-testid="embed-iframe" 
-                style="border-radius:12px; margin-top: 10px;" 
-                src="https://open.spotify.com/embed/track/3iRoXGFrF8O0jTul6LAmus?utm_source=generator" 
-                width="100%" 
-                height="152" /* Adjusted height for single track, change if needed */
+                style="border-radius:12px; margin-top: 10px; max-width: 100%;" 
+                src="PASTE_SPOTIFY_EMBED_SRC_HERE" width="100%" 
+                height="152" 
                 frameBorder="0" 
                 allowfullscreen="" 
                 allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
                 loading="lazy">
             </iframe>
+            <div id="spotifyUpdateSection" style="margin-top: 15px; border-top: 1px solid var(--glass); padding-top: 15px; display: none;"> 
+                 <h5>Update Spotify Song/Playlist</h5>
+                 <div style="display:flex; gap:8px; align-items: center;">
+                    <input id="spotifyLinkInput" type="url" placeholder="Paste Spotify Embed SRC URL here..." style="flex:1;">
+                    <button class="btn" id="updateSpotifyBtn">Update</button>
+                 </div>
+                 <small style="color:rgba(255,255,255,0.6); display: block; margin-top: 5px;">Go to Spotify > Share > Embed > Copy the URL inside the 'src="..."' part.</small>
+            </div>
+
             <div style="margin-top: 20px; border-top: 1px solid var(--glass); padding-top: 20px;">
                 <h4>Our Bucket List 📝</h4>
                 <div id="bucketListContainer" style="margin-bottom: 12px; max-height: 250px; overflow-y: auto; padding-right: 10px;">
                     </div>
-                <div style="display:flex; gap:8px;">
+                <div id="addBucketListItemSection" style="display:flex; gap:8px;"> 
                     <input id="bucketListItemInput" placeholder="Add a new goal..." style="flex:1;">
                     <button class="btn" id="addBucketListItemBtn">Add</button>
                 </div>
@@ -216,28 +230,24 @@
                 <button class="btn" id="printLetterBtn">Print letter</button>
                 <button class="soft-btn" id="exportZip">Export as ZIP (photos + letter)</button>
             </div>
+        </section>
 
-            <section id="reasonsJar" class="card">
-    <div class="section-title"><h3>Reasons I Love You Jar ❤️</h3></div>
-    <p style="color:rgba(255,255,255,0.8);font-size:15px;margin-top:10px">Little notes about why you're amazing...</p>
-
-    <div id="reasonsContainer" style="margin-top: 15px; margin-bottom: 15px; max-height: 300px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 10px;">
-        </div>
-
-    <div id="addReasonSection" style="display: flex; gap: 8px; border-top: 1px solid var(--glass); padding-top: 15px;">
-        <input id="reasonInput" placeholder="Add a reason..." style="flex:1;">
-        <button class="btn" id="addReasonBtn">Add to Jar</button>
-    </div>
-</section>
+        <section id="reasonsJar" class="card">
+            <div class="section-title"><h3>Reasons I Love You Jar ❤️</h3></div>
+            <p style="color:rgba(255,255,255,0.8);font-size:15px;margin-top:10px">Little notes about why you're amazing...</p>
+            <div id="reasonsContainer" style="margin-top: 15px; margin-bottom: 15px; max-height: 300px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.1); border-radius: 10px;">
+                </div>
+            <div id="addReasonSection" style="display: flex; gap: 8px; border-top: 1px solid var(--glass); padding-top: 15px;">
+                <input id="reasonInput" placeholder="Add a reason..." style="flex:1;">
+                <button class="btn" id="addReasonBtn">Add to Jar</button>
+            </div>
         </section>
 
         <footer>
             <div style="font-family:'Indie Flower', cursive;font-size:20px">Made with lots of care and slight embarrassment. ♥</div>
             <div style="margin-top:8px;color:rgba(255,255,255,0.6)">P.S. We can edit any of this text and swap photos. This page is for both of us to keep and grow. 🌱</div>
         </footer>
-    </main>
-
-    <audio id="bgMusic" loop src="" preload="none"></audio>
+    </main> <audio id="bgMusic" loop src="" preload="none"></audio>
     
     <div id="surpriseOverlay" class="surprise-overlay hidden">
         <div class="surprise-card card">
