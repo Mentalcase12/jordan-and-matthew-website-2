@@ -1,12 +1,11 @@
 :root {
-  --bg: #4a0470; 
-  --accent: #ff758f; 
-  --accent-2: #ffcad4; 
+  --bg: #4a0470;
+  --accent: #ff758f;
+  --accent-2: #ffcad4;
   --muted: #ffffff;
-  
-  --card: rgba(255, 255, 255, 0.08); 
-  --glass: rgba(255, 255, 255, 0.1);  
-  --glow: 0 6px 24px rgba(255, 117, 143, 0.2); 
+  --card: rgba(255, 255, 255, 0.08);
+  --glass: rgba(255, 255, 255, 0.1);
+  --glow: 0 6px 24px rgba(255, 117, 143, 0.2);
 }
 
 * {
@@ -34,7 +33,7 @@ header {
   align-items: center;
   gap: 12px;
   padding: 12px 20px;
-  backdrop-filter: blur(8px); 
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--glass);
 }
 
@@ -63,7 +62,7 @@ header {
 .logo h1 {
   margin: 0;
   font-family: 'Indie Flower', cursive;
-  font-size: 22px; 
+  font-size: 22px;
   color: white;
 }
 
@@ -71,10 +70,11 @@ header {
   margin-left: auto;
   display: flex;
   gap: 10px;
+  align-items: center; /* Align buttons vertically */
 }
 
 .nav a {
-  padding: 8px 14px; 
+  padding: 8px 14px;
   border-radius: 12px;
   text-decoration: none;
   color: rgba(255, 255, 255, 0.9);
@@ -110,7 +110,7 @@ main.container {
 .splash-card {
   width: min(880px, 94%);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
-  border-radius: 24px; 
+  border-radius: 24px;
   padding: 30px;
   text-align: center;
   box-shadow: 0 30px 80px rgba(10, 5, 20, 0.6);
@@ -118,14 +118,14 @@ main.container {
 
 .splash-card h2 {
   font-family: 'Indie Flower', cursive;
-  font-size: 38px; 
+  font-size: 38px;
   margin: 0 0 6px;
-  color: var(--accent-2); 
+  color: var(--accent-2);
 }
 
 .splash-card p {
   color: rgba(255, 255, 255, 0.9);
-  margin: 6px 0 24px; 
+  margin: 6px 0 24px;
   line-height: 1.6;
 }
 
@@ -137,7 +137,7 @@ main.container {
 }
 
 .enter-btn {
-  padding: 12px 24px; 
+  padding: 12px 24px;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
   color: white;
@@ -157,9 +157,13 @@ main.container {
   border-radius: 999px;
   background: transparent;
   color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.1); 
+  border: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
   transition: all 0.3s ease;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 700;
+  line-height: 1;
 }
 .soft-btn:hover {
   background: var(--glass);
@@ -167,10 +171,36 @@ main.container {
   transform: scale(1.05);
 }
 
+/* Style for disabled buttons */
+.soft-btn:disabled,
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+.soft-btn:disabled:hover, /* Prevent hover effects when disabled */
+.btn:disabled:hover {
+    transform: none;
+    box-shadow: none;
+    background: transparent; /* Or original background */
+}
+/* Ensure hover transform on non-disabled btn is reset */
+.btn:hover:not(:disabled) {
+  transform: scale(1.05);
+  box-shadow: var(--glow);
+}
+/* Ensure hover transform on non-disabled soft-btn is reset */
+.soft-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+  background: var(--glass); /* Keep hover background */
+  border-color: rgba(255, 255, 255, 0.2); /* Keep hover border */
+}
+
 .small-note {
   font-size: 13px;
   color: rgba(255, 255, 255, 0.7);
-  margin-top: 14px; 
+  margin-top: 14px;
 }
 
 /* Hearts canvas background */
@@ -182,32 +212,32 @@ main.container {
   height: 100%;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.8; 
+  opacity: 0.8;
 }
 
 /* page cards */
 .card {
   background: var(--card);
   border-radius: 20px;
-  padding: 24px; 
+  padding: 24px;
   box-shadow: var(--glow);
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.05); 
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .hero {
   display: grid;
   grid-template-columns: 1fr 380px;
-  gap: 24px; 
+  gap: 24px;
   align-items: center;
 }
 
 .intro h2 {
   font-family: 'Indie Flower', cursive;
-  font-size: 40px; 
+  font-size: 40px;
   margin: 0 0 6px;
-  color: var(--accent-2); 
+  color: var(--accent-2);
 }
 
 .intro p {
@@ -218,7 +248,7 @@ main.container {
 
 .couple-photo {
   height: 320px;
-  border-radius: 16px; 
+  border-radius: 16px;
   background: linear-gradient(135deg, var(--accent-2), rgba(255, 255, 255, 0.02));
   display: flex;
   align-items: center;
@@ -232,7 +262,7 @@ main.container {
   height: 220px;
   object-fit: cover;
   border-radius: 12px;
-  border: 6px solid rgba(255, 255, 255, 0.1); 
+  border: 6px solid rgba(255, 255, 255, 0.1);
 }
 
 .names {
@@ -243,7 +273,7 @@ main.container {
 }
 
 .names .tag {
-  background: var(--glass); 
+  background: var(--glass);
   padding: 8px 12px;
   border-radius: 999px;
   font-weight: 700;
@@ -251,7 +281,7 @@ main.container {
 }
 
 section {
-  margin-top: 24px; 
+  margin-top: 24px;
 }
 
 .section-title {
@@ -264,7 +294,7 @@ section {
 .section-title h3 {
   margin: 0;
   font-family: 'Indie Flower', cursive;
-  font-size: 28px; 
+  font-size: 28px;
   color: white;
 }
 
@@ -284,27 +314,26 @@ section {
   opacity: 0.5;
 }
 
-
 .timeline {
   display: flex;
   flex-direction: column;
-  gap: 16px; 
+  gap: 16px;
   margin-top: 12px;
 }
 
 .memory {
   display: flex;
-  gap: 14px; 
+  gap: 14px;
   align-items: flex-start;
 }
 
 .memory .dot {
-  width: 14px; 
+  width: 14px;
   height: 14px;
   border-radius: 50%;
   background: var(--accent);
   margin-top: 8px;
-  flex-shrink: 0; 
+  flex-shrink: 0;
   animation: pulse 2s infinite ease-in-out;
 }
 
@@ -316,7 +345,7 @@ section {
 
 .memory .body {
   background: var(--glass);
-  padding: 14px; 
+  padding: 14px;
   border-radius: 12px;
   width: 100%;
 }
@@ -324,7 +353,7 @@ section {
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 12px; 
+  gap: 12px;
   margin-top: 12px;
 }
 
@@ -337,6 +366,7 @@ section {
   justify-content: center;
   padding: 8px;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 .photo:hover {
@@ -348,9 +378,10 @@ section {
 
 .photo img {
   transition: all 0.3s ease;
-}
-.photo:hover img {
-  border-radius: 8px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure image covers the area */
 }
 
 .photo small {
@@ -372,6 +403,7 @@ section {
 
 .meter input[type=range] {
   width: 100%;
+  cursor: pointer;
 }
 
 .message-board {
@@ -380,9 +412,11 @@ section {
 
 textarea,
 input[placeholder],
-input[type=date] {
+input[type=date],
+input#bucketListItemInput /* Apply base styles to bucket list input */
+{
   width: 100%;
-  min-height: 44px; 
+  min-height: 44px;
   border-radius: 10px;
   padding: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -397,18 +431,35 @@ textarea {
 }
 textarea:focus,
 input[placeholder]:focus,
-input[type=date]:focus {
+input[type=date]:focus,
+input#bucketListItemInput:focus
+{
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 10px var(--accent);
 }
 input[type=date] {
   color-scheme: dark;
+  cursor: pointer;
+}
+
+/* Style disabled inputs/textareas */
+textarea:disabled,
+input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: rgba(255, 255, 255, 0.05);
+}
+/* Ensure focus styles don't apply when disabled */
+textarea:disabled:focus,
+input:disabled:focus {
+    box-shadow: none;
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 
 footer {
-  margin: 40px 0 20px; 
+  margin: 40px 0 20px;
   text-align: center;
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.7;
@@ -416,15 +467,19 @@ footer {
 
 .btn {
   display: inline-block;
-  padding: 10px 16px; 
+  padding: 10px 16px;
   border-radius: 12px;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
   color: white;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
 }
-.btn:hover {
+.btn:hover:not(:disabled) { /* Only apply hover when not disabled */
   transform: scale(1.05);
   box-shadow: var(--glow);
 }
@@ -440,7 +495,7 @@ footer {
   border-radius: 12px;
   padding: 14px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
-  border: 2px dashed var(--accent-2); 
+  border: 2px dashed var(--accent-2);
   opacity: 0.9;
 }
 
@@ -449,16 +504,113 @@ footer {
 }
 
 @keyframes float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
 }
+
+/* --- Surprise Message Overlay Styles --- */
+.surprise-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(20, 8, 32, 0.85);
+  display: grid;
+  place-items: center;
+  z-index: 150;
+  opacity: 1;
+  transition: opacity 0.4s ease-out;
+  padding: 20px;
+}
+
+.surprise-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.surprise-overlay .surprise-card {
+  width: min(500px, 90%);
+  text-align: center;
+  background: linear-gradient(135deg, var(--accent), var(--bg));
+  box-shadow: 0 15px 40px rgba(10, 5, 20, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+  transform: scale(0.7); /* Start scaled down */
+  opacity: 0; /* Start hidden */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.surprise-overlay .surprise-card.surprise-reveal {
+  animation: surprisePopIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  opacity: 1; /* Make visible during animation */
+}
+
+@keyframes surprisePopIn {
+  0% { transform: scale(0.7) translateY(20px); opacity: 0; filter: blur(5px); }
+  50% { transform: scale(1.1) translateY(-10px); opacity: 1; filter: blur(0px); }
+  100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0px); }
+}
+
+.surprise-overlay.hidden .surprise-card {
+  transform: scale(0.7); /* Keep scaled down when overlay hidden */
+  opacity: 0; /* Keep hidden */
+}
+
+.surprise-overlay #surpriseMessage {
+  font-family: 'Indie Flower', cursive;
+  font-size: 32px;
+  color: white;
+  margin: 0 0 25px 0;
+  line-height: 1.4;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.surprise-overlay #closeSurpriseBtn {
+   background: rgba(255, 255, 255, 0.2);
+   border-color: rgba(255, 255, 255, 0.3);
+   color: white;
+}
+.surprise-overlay #closeSurpriseBtn:hover {
+   background: rgba(255, 255, 255, 0.3);
+}
+
+/* --- Cuter "Surprise Me" Button Styles --- */
+.meter #surpriseBtn {
+  background: linear-gradient(90deg, #ff8fa3, #ffb3c1);
+  box-shadow: 0 4px 15px rgba(255, 117, 143, 0.3);
+  padding-left: 18px;
+  padding-right: 18px;
+}
+
+.meter #surpriseBtn::before {
+  content: '💖';
+  margin-right: 6px;
+  font-size: 1.1em;
+  display: inline-block;
+  vertical-align: middle;
+  transform: translateY(-1px);
+}
+
+.meter #surpriseBtn:hover:not(:disabled) { /* Prevent hover effect when disabled */
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 6px 20px rgba(255, 117, 143, 0.4);
+}
+
+.meter #surpriseBtn:active:not(:disabled) { /* Prevent active effect when disabled */
+  transform: scale(0.95);
+  box-shadow: 0 2px 10px rgba(255, 117, 143, 0.2);
+}
+
+.meter #surpriseBtn.clicked-animation {
+  animation: surpriseClick 0.5s ease-out forwards;
+}
+
+@keyframes surpriseClick {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.8; box-shadow: 0 0 25px 5px var(--accent-2); }
+  100% { transform: scale(1); opacity: 1; box-shadow: 0 4px 15px rgba(255, 117, 143, 0.3); }
+}
+
 
 /* responsive */
 @media (max-width: 880px) {
@@ -470,6 +622,7 @@ footer {
   }
   .names {
     flex-wrap: wrap;
+    justify-content: center; /* Center tags when wrapped */
   }
   .splash-card {
     padding: 18px;
@@ -477,4 +630,59 @@ footer {
   .fun {
     grid-template-columns: 1fr;
   }
+}
+
+/* Responsive adjustments for header/nav */
+@media (max-width: 650px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+        top: 0;
+        backdrop-filter: blur(10px);
+        background-color: rgba(43, 11, 61, 0.5);
+    }
+    .nav {
+        margin-left: 0;
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        margin-top: 8px;
+    }
+    .nav a, .nav button.soft-btn { /* Apply sizing to nav buttons too */
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    main.container {
+        margin-top: 150px; /* Adjust if header height changes significantly */
+    }
+}
+
+/* --- Reasons Jar Styling --- */
+#reasonsContainer .reason-note {
+  background: linear-gradient(135deg, var(--accent-2), #fff1f4); /* Light pink gradient */
+  color: #530580; /* Darker text for contrast */
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-family: 'Indie Flower', cursive; /* Use the cutesy font */
+  font-size: 18px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  transform: rotate(-1deg); /* Slight random tilt (optional) */
+  transition: transform 0.2s ease;
+}
+
+#reasonsContainer .reason-note:nth-child(even) {
+    transform: rotate(1deg); /* Tilt the other way */
+}
+
+#reasonsContainer .reason-note:hover {
+    transform: scale(1.03) rotate(0deg); /* Straighten and slightly enlarge on hover */
+    z-index: 5; /* Bring to front on hover */
+    position: relative; /* Needed for z-index */
+}
+
+/* Style the add button */
+#addReasonBtn::before {
+  content: '💖 '; /* Add heart before text */
 }
