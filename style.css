@@ -695,3 +695,17 @@ footer {
         margin-top: 150px;
     }
 }
+
+.styled-button {
+    font-family: 'Indie Flower', cursive; /* same as your h4/h5 */
+    color: var(--accent-2);              /* same accent color */
+    font-size: 1.1em;                     /* like h5, adjust if needed */
+    background: none;                     /* transparent background */
+    border: none;                         /* no border */
+    padding: 4px 8px;                     /* small padding like spacing */
+    cursor: pointer;                      /* show pointer on hover */
+}
+
+.styled-button:hover {
+    text-decoration: underline;           /* subtle hover effect */
+}
