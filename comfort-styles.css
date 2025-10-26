@@ -1,0 +1,214 @@
+/* Custom properties for consistency */
+:root {
+    --comfort-bg-gradient-start: #3a004a; /* Deep violet */
+    --comfort-bg-gradient-end: #0a011a;   /* Darker, almost black violet */
+    --comfort-accent-color: #ff99e6;      /* Bright, soft pink */
+    --comfort-secondary-accent: #a872ee;  /* Lighter purple */
+    --comfort-text-light: #f0e6fa;        /* Very light purple for main text */
+    --comfort-text-dark: #6a008a;         /* Darker purple for headings/emphasis */
+    --comfort-card-bg: rgba(255, 255, 255, 0.05); /* Very subtle transparent white */
+    --comfort-card-border: rgba(255, 255, 255, 0.1);
+    --comfort-card-shadow: rgba(0, 0, 0, 0.4);
+    --comfort-note-bg: linear-gradient(160deg, #5e007d 0%, #2f003a 100%); /* Inner note gradient */
+    --comfort-note-border: #a872ee; /* Purple border */
+    --comfort-note-glow: rgba(168, 114, 238, 0.5); /* Soft purple glow */
+}
+
+/* Base body styles for this page */
+body {
+    background: var(--comfort-bg-gradient-start);
+    background: linear-gradient(180deg, var(--comfort-bg-gradient-start) 0%, var(--comfort-bg-gradient-end) 100%);
+    overflow-x: hidden; /* Prevent horizontal scroll from animations */
+}
+
+/* Container adjustments */
+main.container.comfort-page {
+    max-width: 1200px; /* Even wider container */
+    margin-top: 60px; /* Adjust top margin if no fixed header */
+    padding-bottom: 80px; /* More space at bottom */
+    position: relative;
+    z-index: 2; /* Keep content above background effects */
+}
+
+/* Page Title Styling */
+.comfort-page-title {
+    font-family: 'Indie Flower', cursive;
+    font-size: 3.8em; /* Much larger title */
+    color: var(--comfort-accent-color);
+    text-align: center;
+    margin-bottom: 40px;
+    text-shadow: 0 0 20px rgba(255, 153, 230, 0.6), 0 0 40px rgba(255, 153, 230, 0.3); /* Glowing text shadow */
+    opacity: 0;
+    transform: translateY(-40px);
+    animation: fadeInSlideDown 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.5s forwards; /* Slower, smoother title animation */
+}
+@keyframes fadeInSlideDown {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Grid layout for notes */
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Flexible columns */
+    gap: 40px; /* Larger gap between notes */
+    margin-top: 30px;
+}
+
+/* Base style for individual note cards (outer container) */
+.comfort-note-wrapper {
+    position: relative;
+    padding: 15px; /* Padding for the glowing border effect */
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--comfort-accent-color) 0%, var(--comfort-secondary-accent) 100%); /* Gradient border "glow" */
+    box-shadow: 0 0 15px var(--comfort-note-glow), 0 0 30px var(--comfort-note-glow); /* Outer glow */
+    opacity: 0;
+    transform: scale(0.7) rotate(var(--initial-rotate, -5deg)); /* Initial state for animation */
+    animation: noteEntry 1.0s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; /* Bouncy entry */
+    animation-delay: var(--animation-delay); /* Staggered delays */
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease; /* Smooth hover */
+    will-change: transform, box-shadow; /* Optimize for animation */
+}
+
+/* Note entry animation */
+@keyframes noteEntry {
+    0% {
+        opacity: 0;
+        transform: scale(0.7) rotate(var(--initial-rotate, -5deg)) translateY(50px);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.05) rotate(calc(var(--initial-rotate, -5deg) * -0.5)); /* Overshoot rotation */
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg) translateY(0);
+    }
+}
+
+/* Hover effect for note wrappers */
+.comfort-note-wrapper:hover {
+    transform: scale(1.03) rotate(0deg); /* Slightly larger, straighten */
+    box-shadow: 0 0 25px var(--comfort-note-glow), 0 0 50px var(--comfort-note-glow); /* Stronger glow */
+    z-index: 10; /* Bring to front on hover */
+}
+
+
+/* Inner note card content styling */
+.comfort-note-card {
+    background: var(--comfort-note-bg); /* Inner gradient for note body */
+    border-radius: 12px; /* Slightly smaller border radius than wrapper */
+    padding: 30px; /* More padding inside */
+    height: 100%; /* Fill wrapper */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* Inner shadow for depth */
+}
+
+/* Heading for notes */
+.comfort-note-card h4 {
+    font-family: 'Indie Flower', cursive;
+    color: var(--comfort-accent-color);
+    font-size: 2.2em; /* Even larger heading */
+    margin-top: 0;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 2px dashed var(--comfort-secondary-accent); /* Thicker dashed line */
+    display: flex; /* Use flex for icon & text alignment */
+    align-items: center;
+    text-shadow: 0 0 8px rgba(255, 153, 230, 0.4); /* Heading glow */
+}
+
+/* Icons for headings */
+.comfort-note-card h4::before {
+    margin-right: 12px;
+    font-size: 1.2em;
+    line-height: 1;
+    color: var(--comfort-secondary-accent); /* Icon color */
+    filter: drop-shadow(0 0 5px rgba(255, 153, 230, 0.3)); /* Icon glow */
+}
+/* Specific icons */
+.note-general h4::before { content: '✨'; }
+.note-argument h4::before { content: '💔'; }
+.note-sad h4::before { content: '🌧️'; }
+.note-reminder h4::before { content: '💖'; }
+.note-missing h4::before { content: '🌌'; } /* Galaxy for distance */
+.note-insecure h4::before { content: '🌟'; }
+.note-stressed h4::before { content: '🧘‍♀️'; } /* Meditating person */
+.note-happy h4::before { content: '🌈'; }
+.note-silly h4::before { content: '😜'; }
+.note-future h4::before { content: '💫'; }
+.note-thankful h4::before { content: '🌷'; } /* New category */
+.note-courage h4::before { content: '🦁'; } /* New category */
+
+
+/* Paragraphs for notes */
+.comfort-note-card p {
+    font-size: 1.15em; /* Slightly larger text */
+    line-height: 1.8;
+    color: var(--comfort-text-light); /* Lighter text for readability on dark background */
+    margin-bottom: 18px; 
+    font-family: 'Nunito', sans-serif;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Soft text shadow for depth */
+}
+.comfort-note-card p:last-child {
+    margin-bottom: 0;
+}
+.comfort-note-card p strong {
+    color: var(--comfort-accent-color); /* Highlight color */
+    font-weight: 800; /* Bolder */
+    text-shadow: 0 0 5px rgba(255, 153, 230, 0.4); /* Glow for bold text */
+}
+
+/* Back link styling */
+.back-link {
+    display: inline-flex; /* Use flex for icon alignment */
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+    text-decoration: none;
+    padding: 15px 30px; /* Larger padding */
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1); /* Lighter glass */
+    color: var(--comfort-accent-color);
+    border: 1px solid var(--comfort-secondary-accent); /* Color border */
+    font-weight: 700;
+    font-size: 1.2em; /* Larger font */
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(168, 114, 238, 0.3); /* Soft shadow */
+    opacity: 0; 
+    animation: fadeInSlideUp 0.8s ease-out 0.2s forwards; /* Button animation */
+}
+@keyframes fadeInSlideUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.back-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: scale(1.05) translateY(-5px); /* Lift higher */
+    box-shadow: 0 0 20px var(--comfort-accent-color), 0 0 40px var(--comfort-secondary-accent); /* Stronger glow */
+}
+.back-link::before {
+     content: '← '; 
+     margin-right: 8px;
+     font-size: 1.1em;
+     line-height: 1;
+}
+
+/* Hide the main page header on this separate page */
+header { display: none; }
+
+
+/* --- FIREFLIES / PARTICLES EFFECT (Replacing Hearts) --- */
+/* Canvas will be styled by JS, this provides a base */
+#comfort-particles-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Below content */
+    pointer-events: none; /* Allow clicks to pass through */
+    background: transparent; /* Ensure canvas itself is transparent */
+}
