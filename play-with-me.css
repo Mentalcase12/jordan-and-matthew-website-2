@@ -222,9 +222,28 @@
 /* Score Board Styles */
 .stats-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     color: white;
+}
+
+.player-stats {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.player-stats h3 {
+    color: #ff758f;
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+}
+
+.waiting-message {
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+    margin: 20px 0;
 }
 
 .stat-item {
