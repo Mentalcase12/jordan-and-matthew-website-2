@@ -401,6 +401,21 @@ function shuffleArray(array) {
     }
 }
 
+// Firebase Configuration
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "jordy-matthew-games.firebaseapp.com",
+    databaseURL: "https://jordy-matthew-games-default-rtdb.firebaseio.com",
+    projectId: "jordy-matthew-games",
+    storageBucket: "jordy-matthew-games.appspot.com",
+    messagingSenderId: "YOUR_MESSAGING_ID",
+    appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
 // Authentication Variables
 const EXPECTED_NAMES = {
     player1: 'matthew',
@@ -408,6 +423,8 @@ const EXPECTED_NAMES = {
 };
 
 let isAuthenticated = false;
+let currentPlayer = null;
+let gameSession = null;
 
 // Check if players are logged in
 function checkAuthentication() {
@@ -421,75 +438,153 @@ function checkAuthentication() {
 
 // Login function
 function loginPlayers() {
-    const player1 = document.getElementById('player1Name').value.trim().toLowerCase();
-    const player2 = document.getElementById('player2Name').value.trim().toLowerCase();
+    const playerName = document.getElementById('player1Name').value.trim().toLowerCase();
     
-    if (!player1 || !player2) {
-        document.getElementById('loginMessage').textContent = 'Please enter both names! 💕';
+    if (!playerName) {
+        document.getElementById('loginMessage').textContent = 'Please enter your name! 💕';
         return;
     }
     
-    if ((player1 === EXPECTED_NAMES.player1 && player2 === EXPECTED_NAMES.player2) ||
-        (player1 === EXPECTED_NAMES.player2 && player2 === EXPECTED_NAMES.player1)) {
-        isAuthenticated = true;
-        document.getElementById('loginSection').style.display = 'none';
-        document.querySelector('.games-container').style.display = 'grid';
-        document.getElementById('scoreBoard').style.display = 'block';
-        document.getElementById('playerNames').style.display = 'none';
-        saveScores();
-        loadScores();
-    } else {
-        document.getElementById('loginMessage').textContent = 'Oops! Those names don\'t match. This is our special place! 💝';
+    if (playerName !== EXPECTED_NAMES.player1 && playerName !== EXPECTED_NAMES.player2) {
+        document.getElementById('loginMessage').textContent = 'Oops! This is our special place! 💝';
+        return;
     }
+    
+    currentPlayer = playerName;
+    
+    // Check for active session
+    db.ref('gameSession').once('value', snapshot => {
+        const session = snapshot.val();
+        if (!session) {
+            // Create new session
+            createGameSession(playerName);
+        } else if (!session.player2 && session.player1 !== playerName) {
+            // Join existing session
+            joinGameSession(playerName);
+        } else if (session.player1 === playerName || session.player2 === playerName) {
+            // Rejoin existing session
+            gameSession = session;
+            activateGameUI();
+        } else {
+            document.getElementById('loginMessage').textContent = 'Game session is full! Try again later 💝';
+        }
+    });
+}
+
+function createGameSession(playerName) {
+    gameSession = {
+        player1: playerName,
+        player2: null,
+        scores: {
+            [playerName]: {
+                quizHighScore: 0,
+                whoSaidItScore: 0,
+                memoryBestTime: '-',
+                gamesPlayed: 0
+            }
+        },
+        created: firebase.database.ServerValue.TIMESTAMP
+    };
+    
+    db.ref('gameSession').set(gameSession);
+    setupRealtimeListeners();
+    activateGameUI();
+}
+
+function joinGameSession(playerName) {
+    db.ref('gameSession/player2').set(playerName);
+    db.ref(`gameSession/scores/${playerName}`).set({
+        quizHighScore: 0,
+        whoSaidItScore: 0,
+        memoryBestTime: '-',
+        gamesPlayed: 0
+    });
+    setupRealtimeListeners();
+    activateGameUI();
+}
+
+function setupRealtimeListeners() {
+    db.ref('gameSession').on('value', snapshot => {
+        gameSession = snapshot.val();
+        updateScoreBoard();
+    });
+}
+
+function activateGameUI() {
+    isAuthenticated = true;
+    document.getElementById('loginSection').style.display = 'none';
+    document.querySelector('.games-container').style.display = 'grid';
+    document.getElementById('scoreBoard').style.display = 'block';
+    document.getElementById('playerNames').style.display = 'none';
+    document.getElementById('loginMessage').textContent = 
+        gameSession.player2 ? 'Both players connected! 💕' : 'Waiting for your love to join... 💝';
 }
 
 // Save scores and names to localStorage
 function saveScores() {
-    const scores = {
-        quizHighScore: document.getElementById('quizHighScore').textContent,
+    if (!currentPlayer || !gameSession) return;
+    
+    const playerScores = {
+        quizHighScore: parseInt(document.getElementById('quizHighScore').textContent),
         whoSaidItScore: whoSaidItScore,
         memoryBestTime: document.getElementById('memoryBestTime').textContent,
-        totalGames: document.getElementById('totalGames').textContent,
-        player1Name: document.getElementById('player1Name').value,
-        player2Name: document.getElementById('player2Name').value,
-        quizScoreHolder: document.getElementById('quizHighScore').textContent === '0' ? '' : 
-            document.getElementById('player1Name').value || 'Player 1',
-        isAuthenticated: isAuthenticated
+        gamesPlayed: parseInt(document.getElementById('totalGames').textContent)
     };
-    localStorage.setItem('gameScores', JSON.stringify(scores));
-}
-
-function saveNames() {
-    saveScores();
-    alert('Names saved! 💝');
+    
+    db.ref(`gameSession/scores/${currentPlayer}`).update(playerScores);
 }
 
 // Load scores from localStorage
-function loadScores() {
-    const scores = JSON.parse(localStorage.getItem('gameScores')) || {
-        quizHighScore: '0',
-        whoSaidItScore: 0,
-        memoryBestTime: '-',
-        totalGames: '0',
-        player1Name: '',
-        player2Name: '',
-        quizScoreHolder: '',
-        isAuthenticated: false
-    };
+function updateScoreBoard() {
+    if (!gameSession || !gameSession.scores) return;
     
-    isAuthenticated = scores.isAuthenticated || false;
-    
-    if (isAuthenticated) {
-        document.getElementById('loginSection').style.display = 'none';
-        document.querySelector('.games-container').style.display = 'grid';
-        document.getElementById('scoreBoard').style.display = 'block';
-        document.getElementById('playerNames').style.display = 'none';
-    } else {
-        document.getElementById('loginSection').style.display = 'block';
-        document.querySelector('.games-container').style.display = 'none';
-        document.getElementById('scoreBoard').style.display = 'none';
-        document.getElementById('playerNames').style.display = 'none';
-    }
+    const scoreboard = document.getElementById('scoreBoard');
+    scoreboard.innerHTML = `
+        <h2>Our Game Stats 🏆</h2>
+        <div class="stats-container">
+            <div class="player-stats">
+                <h3>${gameSession.player1 || 'Waiting...'}</h3>
+                <div class="stat-item">
+                    <span class="stat-label">Quiz High Score:</span>
+                    <span class="stat-value">${gameSession.scores[gameSession.player1]?.quizHighScore || '0'}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Who Said It Score:</span>
+                    <span class="stat-value">${gameSession.scores[gameSession.player1]?.whoSaidItScore || '0'}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Best Memory Time:</span>
+                    <span class="stat-value">${gameSession.scores[gameSession.player1]?.memoryBestTime || '-'}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Games Played:</span>
+                    <span class="stat-value">${gameSession.scores[gameSession.player1]?.gamesPlayed || '0'}</span>
+                </div>
+            </div>
+            <div class="player-stats">
+                <h3>${gameSession.player2 || 'Waiting for Player 2...'}</h3>
+                ${gameSession.player2 ? `
+                    <div class="stat-item">
+                        <span class="stat-label">Quiz High Score:</span>
+                        <span class="stat-value">${gameSession.scores[gameSession.player2]?.quizHighScore || '0'}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Who Said It Score:</span>
+                        <span class="stat-value">${gameSession.scores[gameSession.player2]?.whoSaidItScore || '0'}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Best Memory Time:</span>
+                        <span class="stat-value">${gameSession.scores[gameSession.player2]?.memoryBestTime || '-'}</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Games Played:</span>
+                        <span class="stat-value">${gameSession.scores[gameSession.player2]?.gamesPlayed || '0'}</span>
+                    </div>
+                ` : '<p class="waiting-message">Waiting for your love to join... 💝</p>'}
+            </div>
+        </div>
+    `;
+}
     
     document.getElementById('quizHighScore').textContent = scores.quizHighScore;
     whoSaidItScore = scores.whoSaidItScore;
@@ -502,7 +597,6 @@ function loadScores() {
     document.getElementById('player2Name').value = scores.player2Name || '';
     document.getElementById('quizScoreHolder').textContent = scores.quizScoreHolder ? 
         ` (held by ${scores.quizScoreHolder})` : '';
-}
 
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', () => {
