@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Play With Me - For Jordy ♥</title>
+    
+    <link rel="icon" href="jordan photos for web/jordy 11 main.jpg"> 
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Indie+Flower&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="play-with-me.css">
+</head>
+<body>
+    <main class="container play-page">
+        <a href="index.html" class="back-link">Back to Our World</a>
+
+        <h1 class="page-title">Play With Me ♥</h1>
+        <p class="intro">Let's have some fun together! Test how well we know each other, play some games, and maybe learn something new about us.</p>
+
+        <!-- Login Section -->
+        <section class="game-section card" id="loginSection">
+            <h2>Welcome Back! 💕</h2>
+            <div class="names-container">
+                <div class="name-input">
+                    <label for="player1Name">Player 1:</label>
+                    <input type="text" id="player1Name" placeholder="Enter name">
+                </div>
+                <div class="name-input">
+                    <label for="player2Name">Player 2:</label>
+                    <input type="text" id="player2Name" placeholder="Enter name">
+                </div>
+                <button class="btn" onclick="loginPlayers()">Start Playing Together</button>
+                <p id="loginMessage" class="login-message"></p>
+            </div>
+        </section>
+
+        <div class="games-container" style="display: none;">
+            <!-- Couple Quiz Section -->
+            <section class="game-section card" id="coupleQuiz">
+                <h2>How Well Do You Know Me? 💝</h2>
+                <div class="quiz-container">
+                    <div id="quizStart" class="quiz-screen active">
+                        <p>10 questions about us! Ready to test your knowledge?</p>
+                        <button class="btn" onclick="startQuiz()">Start Quiz</button>
+                    </div>
+                    <div id="quizQuestion" class="quiz-screen">
+                        <p id="questionText"></p>
+                        <div id="answerOptions" class="options-container"></div>
+                    </div>
+                    <div id="quizResult" class="quiz-screen">
+                        <h3>Quiz Complete!</h3>
+                        <p id="scoreText"></p>
+                        <p id="loveMessage"></p>
+                        <button class="btn" onclick="resetQuiz()">Try Again</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memory Game Section -->
+            <section class="game-section card" id="memoryGame">
+                <h2>Match Our Moments 💖</h2>
+                <div class="memory-container">
+                    <div class="memory-stats">
+                        <span>Moves: <span id="moveCount">0</span></span>
+                        <span>Pairs Found: <span id="pairCount">0</span></span>
+                    </div>
+                    <div class="memory-grid" id="memoryGrid"></div>
+                    <button class="btn" onclick="restartMemory()">New Game</button>
+                </div>
+            </section>
+
+            <!-- Who Said It Game -->
+            <section class="game-section card" id="whoSaidIt">
+                <h2>Who Said It? 💭</h2>
+                <div class="quote-container">
+                    <div id="quoteDisplay"></div>
+                    <div class="quote-buttons">
+                        <button class="btn" onclick="guessQuote('Jordan')">Jordan</button>
+                        <button class="btn" onclick="guessQuote('Matthew')">Matthew</button>
+                    </div>
+                    <div id="quoteScore">Score: 0</div>
+                </div>
+            </section>
+
+            <!-- Love Language Test -->
+            <section class="game-section card" id="loveLanguage">
+                <h2>Our Love Language Test ❤️</h2>
+                <div class="love-language-container">
+                    <div id="questionContainer"></div>
+                    <div id="resultContainer" style="display: none;">
+                        <h3>Your Love Language Results</h3>
+                        <div id="languageResults"></div>
+                        <button class="btn" onclick="restartLoveTest()">Take Test Again</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Player Names -->
+        <section class="game-section card" id="playerNames">
+            <h2>Our Names 💑</h2>
+            <div class="names-container">
+                <div class="name-input">
+                    <label for="player1Name">Player 1:</label>
+                    <input type="text" id="player1Name" placeholder="Enter name">
+                </div>
+                <div class="name-input">
+                    <label for="player2Name">Player 2:</label>
+                    <input type="text" id="player2Name" placeholder="Enter name">
+                </div>
+                <button class="btn" onclick="saveNames()">Save Names</button>
+            </div>
+        </section>
+
+        <!-- Score Tracking -->
+        <section class="game-section card" id="scoreBoard">
+            <h2>Our Game Stats 🏆</h2>
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-label">Quiz High Score:</span>
+                    <span class="stat-value" id="quizHighScore">0</span>
+                    <span class="stat-holder" id="quizScoreHolder"></span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Best Memory Game Time:</span>
+                    <span class="stat-value" id="memoryBestTime">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Games Played:</span>
+                    <span class="stat-value" id="totalGames">0</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="play-with-me.js"></script>
+</body>
+</html>
