@@ -13,6 +13,11 @@
     
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="play-with-me.css">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
 </head>
 <body>
     <main class="container play-page">
@@ -26,14 +31,10 @@
             <h2>Welcome Back! 💕</h2>
             <div class="names-container">
                 <div class="name-input">
-                    <label for="player1Name">Player 1:</label>
-                    <input type="text" id="player1Name" placeholder="Enter name">
+                    <label for="player1Name">Your Name:</label>
+                    <input type="text" id="player1Name" placeholder="Enter your name (matthew or jordan)">
                 </div>
-                <div class="name-input">
-                    <label for="player2Name">Player 2:</label>
-                    <input type="text" id="player2Name" placeholder="Enter name">
-                </div>
-                <button class="btn" onclick="loginPlayers()">Start Playing Together</button>
+                <button class="btn" onclick="loginPlayers()">Join Game Session</button>
                 <p id="loginMessage" class="login-message"></p>
             </div>
         </section>
@@ -99,22 +100,6 @@
                 </div>
             </section>
         </div>
-
-        <!-- Player Names -->
-        <section class="game-section card" id="playerNames">
-            <h2>Our Names 💑</h2>
-            <div class="names-container">
-                <div class="name-input">
-                    <label for="player1Name">Player 1:</label>
-                    <input type="text" id="player1Name" placeholder="Enter name">
-                </div>
-                <div class="name-input">
-                    <label for="player2Name">Player 2:</label>
-                    <input type="text" id="player2Name" placeholder="Enter name">
-                </div>
-                <button class="btn" onclick="saveNames()">Save Names</button>
-            </div>
-        </section>
 
         <!-- Score Tracking -->
         <section class="game-section card" id="scoreBoard">
